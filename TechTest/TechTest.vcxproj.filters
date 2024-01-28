@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="GameStates">
+      <UniqueIdentifier>{6fd22ea5-cd64-4dcf-95ff-63977ca1cd79}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core">
+      <UniqueIdentifier>{66324aea-69ae-48ff-8b05-c59e10390cf0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Other">
+      <UniqueIdentifier>{9229bcb9-eba9-4677-941c-4974bcf5de10}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Main.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="AppStateExample.cpp">
+      <Filter>GameStates</Filter>
+    </ClCompile>
+    <ClCompile Include="CTimer.cpp">
+      <Filter>Other</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="State.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="StateManager.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="AppStateExample.h">
+      <Filter>GameStates</Filter>
+    </ClInclude>
+    <ClInclude Include="CTimer.h">
+      <Filter>Other</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
