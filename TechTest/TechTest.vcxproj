@@ -23,7 +23,7 @@
     <ClCompile Include="CAppStateMainMenu.cpp" />
     <ClCompile Include="CEntityFactory.cpp" />
     <ClCompile Include="CEntityManager.cpp" />
-    <ClCompile Include="CSystems.cpp" />
+    <ClCompile Include="Systems.cpp" />
     <ClCompile Include="CTimer.cpp" />
     <ClCompile Include="CWindow.cpp" />
     <ClCompile Include="Main.cpp" />
@@ -34,7 +34,7 @@
     <ClInclude Include="CEntityFactory.h" />
     <ClInclude Include="Components.h" />
     <ClInclude Include="CEntityManager.h" />
-    <ClInclude Include="CSystems.h" />
+    <ClInclude Include="Systems.h" />
     <ClInclude Include="CTimer.h" />
     <ClInclude Include="CState.h" />
     <ClInclude Include="CStateManager.h" />

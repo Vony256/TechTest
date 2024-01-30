@@ -24,7 +24,7 @@
     <ClCompile Include="CEntityManager.cpp">
       <Filter>ECS</Filter>
     </ClCompile>
-    <ClCompile Include="CSystems.cpp">
+    <ClCompile Include="Systems.cpp">
       <Filter>ECS</Filter>
     </ClCompile>
     <ClCompile Include="CWindow.cpp">
@@ -53,7 +53,7 @@
     <ClInclude Include="CEntityManager.h">
       <Filter>ECS</Filter>
     </ClInclude>
-    <ClInclude Include="CSystems.h">
+    <ClInclude Include="Systems.h">
       <Filter>ECS</Filter>
     </ClInclude>
     <ClInclude Include="CWindow.h">
