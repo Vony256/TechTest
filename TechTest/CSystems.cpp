@@ -27,11 +27,13 @@ void renderSystem(CEntityManager& entityManager) {
             rect.h = primitive->height; // Height
 
             if (button) {
-                SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
-                SDL_RenderDrawRect(renderer, &rect);
+                if (button->isVisible) {
+                    SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+                    SDL_RenderDrawRect(renderer, &rect);
 
-                SDL_SetRenderDrawColor(renderer, 255, 255, 255, 100);
-                SDL_RenderFillRect(renderer, &rect);
+                    SDL_SetRenderDrawColor(renderer, 255, 255, 255, 100);
+                    SDL_RenderFillRect(renderer, &rect);
+                }
             }
             else {
                 // Set the color
