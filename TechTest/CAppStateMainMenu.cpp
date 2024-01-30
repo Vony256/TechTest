@@ -15,8 +15,7 @@ void CAppStateMainMenu::OnActivate() {
     CEntityFactory factory(entityManager); //create a factory and point it towards our entity manager
 
     // create start button
-    // Define the start button action
-    std::function<void()> startButtonAction = []() {
+    std::function<void()> startButtonAction = []() { // Define the start button action
         std::cout << "Start Button Pressed" << std::endl;
     };
     factory.createButtonUI(250, 250, 400, 50, "Start", startButtonAction);

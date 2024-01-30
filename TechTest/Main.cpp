@@ -20,26 +20,29 @@ void loop(CStateManager* stateManager) {
 }
 
 void render(CStateManager* stateManager) {
-    //clear colour
+    // set clear colour
     SDL_SetRenderDrawColor(CWindow::windowControl.GetRenderer(), 0, 0, 0, 255);
-    //clear window
+    // clear window
     SDL_RenderClear(CWindow::windowControl.GetRenderer());
 
+    // call the current state to render
     stateManager->render();
 
-    //render window
+    // render window
     SDL_RenderPresent(CWindow::windowControl.GetRenderer());
 }
 
 int main(int argc, char* argv[]) {
+    // do all init
     if (!init()) {
         return 1;
     }
 
-    // Create the window and renderer here...
-
+    // push the first state CAppStateMainMenu
     CStateManager stateManager;
     stateManager.pushState(std::make_unique<CAppStateMainMenu>());
+
+    // get a reference to the timer
     CTimer* timer = CTimer::GetInstance();
 
     const int FPS = 60;

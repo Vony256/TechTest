@@ -20,11 +20,12 @@ void CAppStateGame::OnDeactivate() {
 }
 
 void CAppStateGame::OnLoop() {
-
+    physicsSystem(entityManager, CTimer::GetInstance()->GetDeltaTime());
+    gravitySystem(entityManager, CTimer::GetInstance()->GetDeltaTime());
 }
 
 void CAppStateGame::OnRender() {
-
+    renderSystem(entityManager);
 }
 
 void CAppStateGame::OnEvent(SDL_Event* Event) {
@@ -34,7 +35,16 @@ void CAppStateGame::OnEvent(SDL_Event* Event) {
                 case SDL_BUTTON_LEFT: {
                     int x, y;
                     SDL_GetMouseState(&x, &y);
-
+                    break;
+                }
+            }
+            break;
+        }
+        case SDL_MOUSEBUTTONUP: {
+            switch (Event->button.button) {
+                case SDL_BUTTON_LEFT: {
+                    int x, y;
+                    SDL_GetMouseState(&x, &y);
                     onClickSystem(entityManager, x, y);
                     break;
                 }
