@@ -38,6 +38,15 @@ void CEntityManager::addTagComponent(Entity entity, const TagComponent& componen
     tagComponents[entity] = component;
 }
 
+void CEntityManager::addTextComponent(Entity entity, const TextComponent& component) {
+    textComponents[entity] = component;
+}
+
+void CEntityManager::addButtonComponent(Entity entity, const ButtonComponent& component) {
+    buttonComponents[entity] = component;
+}
+
+
 // Get Methods
 
 PrimitiveComponent* CEntityManager::getPrimitiveComponent(Entity entity) {
@@ -83,6 +92,22 @@ LambdaComponent* CEntityManager::getLambdaComponent(Entity entity) {
 TagComponent* CEntityManager::getTagComponent(Entity entity) {
     std::unordered_map<Entity, TagComponent>::iterator it = tagComponents.find(entity);
     if (it != tagComponents.end()) {
+        return &(it->second);
+    }
+    return nullptr;
+}
+
+TextComponent* CEntityManager::getTextComponent(Entity entity) {
+    std::unordered_map<Entity, TextComponent>::iterator it = textComponents.find(entity);
+    if (it != textComponents.end()) {
+        return &(it->second);
+    }
+    return nullptr;
+}
+
+ButtonComponent* CEntityManager::getButtonComponent(Entity entity) {
+    std::unordered_map<Entity, ButtonComponent>::iterator it = buttonComponents.find(entity);
+    if (it != buttonComponents.end()) {
         return &(it->second);
     }
     return nullptr;

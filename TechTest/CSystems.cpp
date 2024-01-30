@@ -2,6 +2,10 @@
 #include "CWindow.h"
 #include "CSystems.h"
 
+bool hasTag(const TagComponent& tagComponent, const std::string& tag) {
+    return std::find(tagComponent.taglist.begin(), tagComponent.taglist.end(), tag) != tagComponent.taglist.end();
+}
+
 void physicsSystem(CEntityManager& entityManager) {
 }
 
@@ -9,15 +13,12 @@ void renderSystem(CEntityManager& entityManager) {
     //get basic window renderer
     SDL_Renderer* renderer = CWindow::windowControl.GetRenderer();
 
-    unsigned int entityCount = entityManager.getEntityCount();
-    for (Entity entity = 0; entity < entityCount; ++entity) {
+    for (Entity entity = 0; entity < entityManager.getEntityCount(); ++entity) {
         PrimitiveComponent* primitive = entityManager.getPrimitiveComponent(entity);
         PositionComponent* position = entityManager.getPositionComponent(entity);
+        ButtonComponent* button = entityManager.getButtonComponent(entity);
 
         if (primitive != nullptr && position != nullptr) {
-            // Set the color for drawing (e.g., white)
-            SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
-
             // Create an SDL_Rect with the position and size from the components
             SDL_Rect rect;
             rect.x = static_cast<int>(position->x); // Position X
@@ -25,8 +26,19 @@ void renderSystem(CEntityManager& entityManager) {
             rect.w = primitive->width; // Width
             rect.h = primitive->height; // Height
 
-            // Draw the rectangle
-            SDL_RenderFillRect(renderer, &rect);
+            if (button) {
+                SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+                SDL_RenderDrawRect(renderer, &rect);
+
+                SDL_SetRenderDrawColor(renderer, 255, 255, 255, 100);
+                SDL_RenderFillRect(renderer, &rect);
+            }
+            else {
+                // Set the color
+                SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+                // Draw the rectangle
+                SDL_RenderFillRect(renderer, &rect);
+            }
         }
     }
 }
@@ -49,16 +61,18 @@ void onClickSystem(CEntityManager& entityManager, int mouseX, int mouseY) {
         LambdaComponent* lambda = entityManager.getLambdaComponent(entity);
         TagComponent* tags = entityManager.getTagComponent(entity);
 
-        if (position && primitive && lambda && tags) {
+        if (position && primitive) {
             // Check if the mouse click is within the entity's bounds
-            if (mouseX >= position->x && mouseX <= position->x + primitive->width &&
-                mouseY >= position->y && mouseY <= position->y + primitive->height) {
-                // Mouse is within entity, trigger the lambda action
-                lambda->action();
-
-                //lets print the tags on the object
-                for (unsigned int i = 0; i < tags->taglist.size(); i++) {
-                    std::cout << tags->taglist[i] << std::endl;
+            if (mouseX >= position->x && mouseX <= position->x + primitive->width && mouseY >= position->y && mouseY <= position->y + primitive->height) {
+                if (lambda) {
+                    lambda->action();
+                }
+                if (tags) {
+                    //lets print the tags on the object
+                    for (unsigned int i = 0; i < tags->taglist.size(); i++) {
+                        std::cout << "[" << tags->taglist[i] << "] ";
+                    }
+                    std::cout << std::endl;
                 }
             }
         }

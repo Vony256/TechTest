@@ -18,9 +18,6 @@
     <ClCompile Include="Main.cpp">
       <Filter>Core</Filter>
     </ClCompile>
-    <ClCompile Include="AppStateExample.cpp">
-      <Filter>GameStates</Filter>
-    </ClCompile>
     <ClCompile Include="CTimer.cpp">
       <Filter>Other</Filter>
     </ClCompile>
@@ -36,6 +33,12 @@
     <ClCompile Include="CEntityFactory.cpp">
       <Filter>ECS</Filter>
     </ClCompile>
+    <ClCompile Include="CAppStateMainMenu.cpp">
+      <Filter>GameStates</Filter>
+    </ClCompile>
+    <ClCompile Include="CAppStateGame.cpp">
+      <Filter>GameStates</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CState.h">
@@ -43,9 +46,6 @@
     </ClInclude>
     <ClInclude Include="CStateManager.h">
       <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="AppStateExample.h">
-      <Filter>GameStates</Filter>
     </ClInclude>
     <ClInclude Include="CTimer.h">
       <Filter>Other</Filter>
@@ -64,6 +64,12 @@
     </ClInclude>
     <ClInclude Include="CEntityFactory.h">
       <Filter>ECS</Filter>
+    </ClInclude>
+    <ClInclude Include="CAppStateMainMenu.h">
+      <Filter>GameStates</Filter>
+    </ClInclude>
+    <ClInclude Include="CAppStateGame.h">
+      <Filter>GameStates</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -1,6 +1,6 @@
 #include <SDL.h>
 #include "CStateManager.h"
-#include "AppStateExample.h"
+#include "CAppStateMainMenu.h"
 #include "CTimer.h"
 #include "CWindow.h"
 
@@ -39,7 +39,7 @@ int main(int argc, char* argv[]) {
     // Create the window and renderer here...
 
     CStateManager stateManager;
-    stateManager.pushState(std::make_unique<AppStateExample>());
+    stateManager.pushState(std::make_unique<CAppStateMainMenu>());
     CTimer* timer = CTimer::GetInstance();
 
     const int FPS = 60;

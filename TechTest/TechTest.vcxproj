@@ -19,7 +19,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="AppStateExample.cpp" />
+    <ClCompile Include="CAppStateGame.cpp" />
+    <ClCompile Include="CAppStateMainMenu.cpp" />
     <ClCompile Include="CEntityFactory.cpp" />
     <ClCompile Include="CEntityManager.cpp" />
     <ClCompile Include="CSystems.cpp" />
@@ -28,7 +29,8 @@
     <ClCompile Include="Main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AppStateExample.h" />
+    <ClInclude Include="CAppStateGame.h" />
+    <ClInclude Include="CAppStateMainMenu.h" />
     <ClInclude Include="CEntityFactory.h" />
     <ClInclude Include="Components.h" />
     <ClInclude Include="CEntityManager.h" />

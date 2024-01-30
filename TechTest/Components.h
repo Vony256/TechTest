@@ -26,3 +26,12 @@ struct LambdaComponent {
 struct TagComponent {
     std::vector<std::string> taglist;
 };
+
+struct TextComponent {
+    std::string text;
+};
+
+struct ButtonComponent {
+    bool isEnabled;
+    bool isVisible;
+};
