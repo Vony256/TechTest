@@ -15,6 +15,7 @@ class CEntityManager {
         std::unordered_map<Entity, NameComponent> nameComponents;
         std::unordered_map<Entity, GravityComponent> gravityComponents;
         std::unordered_map<Entity, LambdaComponent> lambdaComponents;
+        std::unordered_map<Entity, TagComponent> tagComponents;
         /*
         Performance Considerations : The use of std::unordered_map is suitable for managing components.
         However, if performance becomes an issue, especially in a system with a large number of entitiesand components,
@@ -31,10 +32,12 @@ class CEntityManager {
         void addNameComponent(Entity entity, const NameComponent& component);
         void addGravityComponent(Entity entity, const GravityComponent& component);
         void addLambdaComponent(Entity entity, const LambdaComponent& component);
+        void addTagComponent(Entity entity, const TagComponent& component);
 
         PrimitiveComponent* getPrimitiveComponent(Entity entity);
         PositionComponent* getPositionComponent(Entity entity);
         NameComponent* getNameComponent(Entity entity);
         GravityComponent* getGravityComponent(Entity entity);
         LambdaComponent* getLambdaComponent(Entity entity);
+        TagComponent* getTagComponent(Entity entity);
 };

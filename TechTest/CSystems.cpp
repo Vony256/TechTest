@@ -47,13 +47,19 @@ void onClickSystem(CEntityManager& entityManager, int mouseX, int mouseY) {
         PositionComponent* position = entityManager.getPositionComponent(entity);
         PrimitiveComponent* primitive = entityManager.getPrimitiveComponent(entity);
         LambdaComponent* lambda = entityManager.getLambdaComponent(entity);
+        TagComponent* tags = entityManager.getTagComponent(entity);
 
-        if (position && primitive && lambda) {
+        if (position && primitive && lambda && tags) {
             // Check if the mouse click is within the entity's bounds
             if (mouseX >= position->x && mouseX <= position->x + primitive->width &&
                 mouseY >= position->y && mouseY <= position->y + primitive->height) {
                 // Mouse is within entity, trigger the lambda action
                 lambda->action();
+
+                //lets print the tags on the object
+                for (unsigned int i = 0; i < tags->taglist.size(); i++) {
+                    std::cout << tags->taglist[i] << std::endl;
+                }
             }
         }
     }

@@ -12,6 +12,8 @@ unsigned int CEntityManager::getEntityCount() {
     return entityCount;
 }
 
+// Add Methods
+
 void CEntityManager::addPrimitiveComponent(Entity entity, const PrimitiveComponent& component) {
     primitiveComponents[entity] = component;
 }
@@ -31,6 +33,12 @@ void CEntityManager::addGravityComponent(Entity entity, const GravityComponent& 
 void CEntityManager::addLambdaComponent(Entity entity, const LambdaComponent& component) {
     lambdaComponents[entity] = component;
 }
+
+void CEntityManager::addTagComponent(Entity entity, const TagComponent& component) {
+    tagComponents[entity] = component;
+}
+
+// Get Methods
 
 PrimitiveComponent* CEntityManager::getPrimitiveComponent(Entity entity) {
     std::unordered_map<Entity, PrimitiveComponent>::iterator it = primitiveComponents.find(entity);
@@ -67,6 +75,14 @@ GravityComponent* CEntityManager::getGravityComponent(Entity entity) {
 LambdaComponent* CEntityManager::getLambdaComponent(Entity entity) {
     std::unordered_map<Entity, LambdaComponent>::iterator it = lambdaComponents.find(entity);
     if (it != lambdaComponents.end()) {
+        return &(it->second);
+    }
+    return nullptr;
+}
+
+TagComponent* CEntityManager::getTagComponent(Entity entity) {
+    std::unordered_map<Entity, TagComponent>::iterator it = tagComponents.find(entity);
+    if (it != tagComponents.end()) {
         return &(it->second);
     }
     return nullptr;

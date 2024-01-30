@@ -28,9 +28,11 @@ Entity CEntityFactory::createGravityEntity(float x, float y, int width, int heig
         // Define the action here, e.g., a simple log statement or more complex behavior
         std::cout << "Gravity action triggered!" << std::endl;
     };
-
     LambdaComponent lambda{ gravityAction };
     entityManager.addLambdaComponent(entity, lambda);
+
+    TagComponent tags{ {"Gravity", "Basic"} };
+    entityManager.addTagComponent(entity, tags);
 
     return entity;
 }

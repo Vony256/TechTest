@@ -23,7 +23,7 @@ struct LambdaComponent {
     std::function<void()> action;
 };
 
-struct TagComponent { //yet to be implemented
-    std::vector<std::string> tags;
+struct TagComponent {
+    std::vector<std::string> taglist;
     //TagComponent tagcomp{ {"tag1", "tag2", "tag3"} };
 };
