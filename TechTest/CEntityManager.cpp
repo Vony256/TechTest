@@ -16,8 +16,8 @@ void CEntityManager::addPrimitiveComponent(Entity entity, const PrimitiveCompone
     primitiveComponents[entity] = component;
 }
 
-void CEntityManager::addTranslateComponent(Entity entity, const TranslateComponent& component) {
-    translateComponents[entity] = component;
+void CEntityManager::addPositionComponent(Entity entity, const PositionComponent& component) {
+    positionComponents[entity] = component;
 }
 
 void CEntityManager::addNameComponent(Entity entity, const NameComponent& component) {
@@ -28,6 +28,10 @@ void CEntityManager::addGravityComponent(Entity entity, const GravityComponent& 
     gravityComponents[entity] = component;
 }
 
+void CEntityManager::addLambdaComponent(Entity entity, const LambdaComponent& component) {
+    lambdaComponents[entity] = component;
+}
+
 PrimitiveComponent* CEntityManager::getPrimitiveComponent(Entity entity) {
     std::unordered_map<Entity, PrimitiveComponent>::iterator it = primitiveComponents.find(entity);
     if (it != primitiveComponents.end()) {
@@ -36,9 +40,9 @@ PrimitiveComponent* CEntityManager::getPrimitiveComponent(Entity entity) {
     return nullptr;
 }
 
-TranslateComponent* CEntityManager::getTranslateComponent(Entity entity) {
-    std::unordered_map<Entity, TranslateComponent>::iterator it = translateComponents.find(entity);
-    if (it != translateComponents.end()) {
+PositionComponent* CEntityManager::getPositionComponent(Entity entity) {
+    std::unordered_map<Entity, PositionComponent>::iterator it = positionComponents.find(entity);
+    if (it != positionComponents.end()) {
         return &(it->second);
     }
     return nullptr;
@@ -55,6 +59,14 @@ NameComponent* CEntityManager::getNameComponent(Entity entity) {
 GravityComponent* CEntityManager::getGravityComponent(Entity entity) {
     std::unordered_map<Entity, GravityComponent>::iterator it = gravityComponents.find(entity);
     if (it != gravityComponents.end()) {
+        return &(it->second);
+    }
+    return nullptr;
+}
+
+LambdaComponent* CEntityManager::getLambdaComponent(Entity entity) {
+    std::unordered_map<Entity, LambdaComponent>::iterator it = lambdaComponents.find(entity);
+    if (it != lambdaComponents.end()) {
         return &(it->second);
     }
     return nullptr;
