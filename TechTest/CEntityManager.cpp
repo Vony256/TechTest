@@ -1,21 +1,49 @@
 #include "CEntityManager.h"
 
-Entity CEntityManager::createEntity() {
-    return nextEntityID++;
+CEntityManager::CEntityManager() : nextEntity(0) {
 }
 
-void CEntityManager::destroyEntity(Entity entity) {
-    nameComponents.erase(entity);
+Entity CEntityManager::createEntity() {
+    entityCount++;
+    return nextEntity++;
+}
+
+unsigned int CEntityManager::getEntityCount() {
+    return entityCount;
+}
+
+void CEntityManager::addPrimitiveComponent(Entity entity, const PrimitiveComponent& component) {
+    primitiveComponents[entity] = component;
+}
+
+void CEntityManager::addTranslateComponent(Entity entity, const TranslateComponent& component) {
+    translateComponents[entity] = component;
 }
 
 void CEntityManager::addNameComponent(Entity entity, const NameComponent& component) {
     nameComponents[entity] = component;
 }
 
+PrimitiveComponent* CEntityManager::getPrimitiveComponent(Entity entity) {
+    std::unordered_map<Entity, PrimitiveComponent>::iterator it = primitiveComponents.find(entity);
+    if (it != primitiveComponents.end()) {
+        return &(it->second);
+    }
+    return nullptr;
+}
+
+TranslateComponent* CEntityManager::getTranslateComponent(Entity entity) {
+    std::unordered_map<Entity, TranslateComponent>::iterator it = translateComponents.find(entity);
+    if (it != translateComponents.end()) {
+        return &(it->second);
+    }
+    return nullptr;
+}
+
 NameComponent* CEntityManager::getNameComponent(Entity entity) {
-    auto it = nameComponents.find(entity);
+    std::unordered_map<Entity, NameComponent>::iterator it = nameComponents.find(entity);
     if (it != nameComponents.end()) {
-        return &it->second;
+        return &(it->second);
     }
     return nullptr;
 }

@@ -56,7 +56,7 @@
     <ClInclude Include="CWindow.h">
       <Filter>Other</Filter>
     </ClInclude>
-    <ClInclude Include="CComponent.h">
+    <ClInclude Include="Components.h">
       <Filter>ECS</Filter>
     </ClInclude>
   </ItemGroup>

@@ -28,7 +28,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AppStateExample.h" />
-    <ClInclude Include="CComponent.h" />
+    <ClInclude Include="Components.h" />
     <ClInclude Include="CEntityManager.h" />
     <ClInclude Include="CSystems.h" />
     <ClInclude Include="CTimer.h" />

@@ -1,32 +1,32 @@
+#include <SDL.h>
+#include "CWindow.h"
 #include "CSystems.h"
 
 void physicsSystem(CEntityManager& entityManager) {
-    /*
-    // Iterate through all entities with a NumberComponent and increment their number
-    for (Entity entity = 0; entity < 100; ++entity) { // Assuming a maximum of 100 entities for example
-        NumberComponent* numberComponent = entityManager.getNumberComponent(entity);
-        if (numberComponent) {
-            numberComponent->number += 1;
-        }
-    }
-    */
 }
 
 void renderSystem(CEntityManager& entityManager) {
+    //get basic window renderer
+    SDL_Renderer* renderer = CWindow::windowControl.GetRenderer();
 
-    /*
-    // Iterate through all entities with a NameComponent and render their name and number
-    for (Entity entity = 0; entity < 100; ++entity) {
-        NameComponent* nameComponent = entityManager.getNameComponent(entity);
-        NumberComponent* numberComponent = entityManager.getNumberComponent(entity);
+    unsigned int entityCount = entityManager.getEntityCount();
+    for (Entity entity = 0; entity < entityCount; ++entity) {
+        PrimitiveComponent* primitive = entityManager.getPrimitiveComponent(entity);
+        TranslateComponent* translate = entityManager.getTranslateComponent(entity);
 
-        if (nameComponent) {
-            std::cout << "Entity " << entity << ": " << nameComponent->name;
-            if (numberComponent) {
-                std::cout << ", Number: " << numberComponent->number;
-            }
-            std::cout << std::endl;
+        if (primitive != nullptr && translate != nullptr) {
+            // Set the color for drawing (e.g., white)
+            SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+
+            // Create an SDL_Rect with the position and size from the components
+            SDL_Rect rect;
+            rect.x = translate->x; // Position X
+            rect.y = translate->y; // Position Y
+            rect.w = primitive->width; // Width
+            rect.h = primitive->height; // Height
+
+            // Draw the rectangle
+            SDL_RenderFillRect(renderer, &rect);
         }
     }
-    */
 }
