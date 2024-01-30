@@ -25,5 +25,4 @@ struct LambdaComponent {
 
 struct TagComponent {
     std::vector<std::string> taglist;
-    //TagComponent tagcomp{ {"tag1", "tag2", "tag3"} };
 };
