@@ -2,14 +2,14 @@
 
 #include <vector>
 #include <memory>
-#include "State.h"
+#include "CState.h"
 
-class StateManager {
+class CStateManager {
     private:
-        std::vector<std::unique_ptr<State>> stateStack;
+        std::vector<std::unique_ptr<CState>> stateStack;
 
     public:
-        void pushState(std::unique_ptr<State> state) {
+        void pushState(std::unique_ptr<CState> state) {
             if (!stateStack.empty()) {
                 stateStack.back()->OnDeactivate();
             }

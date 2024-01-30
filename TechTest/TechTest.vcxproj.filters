@@ -10,6 +10,9 @@
     <Filter Include="Other">
       <UniqueIdentifier>{9229bcb9-eba9-4677-941c-4974bcf5de10}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ECS">
+      <UniqueIdentifier>{17d4a059-0119-4902-a7e0-63b99afd4ad6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -21,12 +24,21 @@
     <ClCompile Include="CTimer.cpp">
       <Filter>Other</Filter>
     </ClCompile>
+    <ClCompile Include="CEntityManager.cpp">
+      <Filter>ECS</Filter>
+    </ClCompile>
+    <ClCompile Include="CSystems.cpp">
+      <Filter>ECS</Filter>
+    </ClCompile>
+    <ClCompile Include="CWindow.cpp">
+      <Filter>Other</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="State.h">
+    <ClInclude Include="CState.h">
       <Filter>Core</Filter>
     </ClInclude>
-    <ClInclude Include="StateManager.h">
+    <ClInclude Include="CStateManager.h">
       <Filter>Core</Filter>
     </ClInclude>
     <ClInclude Include="AppStateExample.h">
@@ -34,6 +46,18 @@
     </ClInclude>
     <ClInclude Include="CTimer.h">
       <Filter>Other</Filter>
+    </ClInclude>
+    <ClInclude Include="CEntityManager.h">
+      <Filter>ECS</Filter>
+    </ClInclude>
+    <ClInclude Include="CSystems.h">
+      <Filter>ECS</Filter>
+    </ClInclude>
+    <ClInclude Include="CWindow.h">
+      <Filter>Other</Filter>
+    </ClInclude>
+    <ClInclude Include="CComponent.h">
+      <Filter>ECS</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

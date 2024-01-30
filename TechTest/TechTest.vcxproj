@@ -20,14 +20,21 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AppStateExample.cpp" />
+    <ClCompile Include="CEntityManager.cpp" />
+    <ClCompile Include="CSystems.cpp" />
     <ClCompile Include="CTimer.cpp" />
+    <ClCompile Include="CWindow.cpp" />
     <ClCompile Include="Main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AppStateExample.h" />
+    <ClInclude Include="CComponent.h" />
+    <ClInclude Include="CEntityManager.h" />
+    <ClInclude Include="CSystems.h" />
     <ClInclude Include="CTimer.h" />
-    <ClInclude Include="State.h" />
-    <ClInclude Include="StateManager.h" />
+    <ClInclude Include="CState.h" />
+    <ClInclude Include="CStateManager.h" />
+    <ClInclude Include="CWindow.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

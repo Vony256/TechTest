@@ -1,17 +1,44 @@
 #include <SDL.h>
-#include "StateManager.h"
+#include "CStateManager.h"
 #include "AppStateExample.h"
 #include "CTimer.h"
+#include "CWindow.h"
 
-int main(int argc, char* argv[]) {
+bool init() {
     if (SDL_Init(SDL_INIT_EVERYTHING) < 0) {
         // Handle SDL initialization error
+        return false;
+    }
+
+    CWindow::windowControl.initWindow();
+
+    return true;
+}
+
+void loop(CStateManager* stateManager) {
+    stateManager->loop();
+}
+
+void render(CStateManager* stateManager) {
+    //clear colour
+    SDL_SetRenderDrawColor(CWindow::windowControl.GetRenderer(), 0, 0, 0, 255);
+    //clear window
+    SDL_RenderClear(CWindow::windowControl.GetRenderer());
+
+    stateManager->render();
+
+    //render window
+    SDL_RenderPresent(CWindow::windowControl.GetRenderer());
+}
+
+int main(int argc, char* argv[]) {
+    if (!init()) {
         return 1;
     }
 
     // Create the window and renderer here...
 
-    StateManager stateManager;
+    CStateManager stateManager;
     stateManager.pushState(std::make_unique<AppStateExample>());
     CTimer* timer = CTimer::GetInstance();
 
@@ -35,8 +62,8 @@ int main(int argc, char* argv[]) {
 
         timer->OnLoop(); // Update timer
 
-        stateManager.loop();
-        stateManager.render();
+        loop(&stateManager);
+        render(&stateManager);
 
         frameTime = SDL_GetTicks() - frameStart;
         if (frameDelay > frameTime) {
