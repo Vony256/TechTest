@@ -2,13 +2,28 @@
 #include "CWindow.h"
 #include "Systems.h"
 
+//function to search through the tag component for a specific tag
 bool hasTag(const TagComponent& tagComponent, const std::string& tag) {
     return std::find(tagComponent.taglist.begin(), tagComponent.taglist.end(), tag) != tagComponent.taglist.end();
 }
 
+// core movement, momentem and whatnot
 void physicsSystem(CEntityManager& entityManager, float deltaTime) {
 }
 
+// How gravity works
+void gravitySystem(CEntityManager& entityManager, float deltaTime) {
+    for (Entity entity = 0; entity < entityManager.getEntityCount(); ++entity) {
+        PositionComponent* position = entityManager.getPositionComponent(entity);
+        GravityComponent* gravity = entityManager.getGravityComponent(entity);
+
+        if (position && gravity) {
+            position->y += gravity->gravityScale * deltaTime;
+        }
+    }
+}
+
+// determins how entities are rendered
 void renderSystem(CEntityManager& entityManager) {
     //get basic window renderer
     SDL_Renderer* renderer = CWindow::windowControl.GetRenderer();
@@ -48,17 +63,7 @@ void renderSystem(CEntityManager& entityManager) {
     }
 }
 
-void gravitySystem(CEntityManager& entityManager, float deltaTime) {
-    for (Entity entity = 0; entity < entityManager.getEntityCount(); ++entity) {
-        PositionComponent* position = entityManager.getPositionComponent(entity);
-        GravityComponent* gravity = entityManager.getGravityComponent(entity);
-
-        if (position && gravity) {
-            position->y += gravity->gravityScale * deltaTime;
-        }
-    }
-}
-
+// a system that manages onClick events
 void onClickSystem(CEntityManager& entityManager, int mouseX, int mouseY) {
     // we take the real position and scale it with the logical position
     float scaleFactorWidth = CWindow::windowControl.getScaleFactorWidth();
@@ -75,11 +80,10 @@ void onClickSystem(CEntityManager& entityManager, int mouseX, int mouseY) {
         if (position && primitive) {
             // Check if the mouse click is within the entity's bounds
             if (scaledMouseX >= position->x && scaledMouseX <= position->x + primitive->width && scaledMouseY >= position->y && scaledMouseY <= position->y + primitive->height) {
-                if (lambda) {
+                if (lambda) { // what happenes when an entity has a lambda component
                     lambda->action();
                 }
-                if (tags) {
-                    //lets print the tags on the object
+                if (tags) { // what happens when the entity has tags
                     for (unsigned int i = 0; i < tags->taglist.size(); i++) {
                         std::cout << "[" << tags->taglist[i] << "] ";
                     }
