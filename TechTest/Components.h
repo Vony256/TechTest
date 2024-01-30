@@ -6,10 +6,14 @@ struct PrimitiveComponent {
 };
 
 struct TranslateComponent {
-    int x;
-    int y;
+    float x;
+    float y;
 };
 
 struct NameComponent {
     std::string name;
+};
+
+struct GravityComponent {
+    float gravityScale;
 };

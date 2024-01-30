@@ -13,6 +13,14 @@ AppStateExample::~AppStateExample() {
 void AppStateExample::OnActivate() {
     std::cout << "AppStateExample Activated" << std::endl;
 
+    CEntityFactory factory(entityManager); //create a factory and point it towards our entity manager
+    // Create basic entity
+    factory.createBasicEntity(100, 100, 50, 50);
+
+    // Create entity with gravity
+    factory.createGravityEntity(200, 200, 20, 50, 9.8f);
+
+    /*
     // Create a new entity
     Entity myEntity = entityManager.createEntity();
 
@@ -38,10 +46,14 @@ void AppStateExample::OnActivate() {
     entityManager.addPrimitiveComponent(myEntity2, primitive2);
 
     // Create and add a TranslateComponent
-    TranslateComponent translate2;
-    translate2.x = 200; // Set X position
-    translate2.y = 200; // Set Y position
+    TranslateComponent translate2 = { 100, 100 };
     entityManager.addTranslateComponent(myEntity2, translate2);
+
+    // add gravity component to this entity
+    GravityComponent gravityComponent;
+    gravityComponent.gravityScale = 9.8f; // Set the gravity scale
+    entityManager.addGravityComponent(myEntity2, gravityComponent);
+    */
 }
 
 void AppStateExample::OnDeactivate() {
@@ -52,6 +64,7 @@ void AppStateExample::OnLoop() {
     //std::cout << CTimer::GetInstance()->GetFPS() << std::endl;
 
     physicsSystem(entityManager);
+    gravitySystem(entityManager, CTimer::GetInstance()->GetDeltaTime());
 }
 
 void AppStateExample::OnRender() {

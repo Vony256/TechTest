@@ -24,6 +24,10 @@ void CEntityManager::addNameComponent(Entity entity, const NameComponent& compon
     nameComponents[entity] = component;
 }
 
+void CEntityManager::addGravityComponent(Entity entity, const GravityComponent& component) {
+    gravityComponents[entity] = component;
+}
+
 PrimitiveComponent* CEntityManager::getPrimitiveComponent(Entity entity) {
     std::unordered_map<Entity, PrimitiveComponent>::iterator it = primitiveComponents.find(entity);
     if (it != primitiveComponents.end()) {
@@ -43,6 +47,14 @@ TranslateComponent* CEntityManager::getTranslateComponent(Entity entity) {
 NameComponent* CEntityManager::getNameComponent(Entity entity) {
     std::unordered_map<Entity, NameComponent>::iterator it = nameComponents.find(entity);
     if (it != nameComponents.end()) {
+        return &(it->second);
+    }
+    return nullptr;
+}
+
+GravityComponent* CEntityManager::getGravityComponent(Entity entity) {
+    std::unordered_map<Entity, GravityComponent>::iterator it = gravityComponents.find(entity);
+    if (it != gravityComponents.end()) {
         return &(it->second);
     }
     return nullptr;

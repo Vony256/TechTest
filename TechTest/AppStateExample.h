@@ -1,8 +1,12 @@
 #pragma once
 #include "CState.h"
 #include "CEntityManager.h"
+#include "CEntityFactory.h"
 
 class AppStateExample : public CState {
+    private:
+        CEntityManager entityManager;
+
     public:
         AppStateExample();
         ~AppStateExample();
@@ -12,6 +16,4 @@ class AppStateExample : public CState {
         void OnLoop() override;
         void OnRender() override;
         void OnEvent(SDL_Event* Event) override;
-    private:
-        CEntityManager entityManager;
 };

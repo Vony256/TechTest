@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AppStateExample.cpp" />
+    <ClCompile Include="CEntityFactory.cpp" />
     <ClCompile Include="CEntityManager.cpp" />
     <ClCompile Include="CSystems.cpp" />
     <ClCompile Include="CTimer.cpp" />
@@ -28,6 +29,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AppStateExample.h" />
+    <ClInclude Include="CEntityFactory.h" />
     <ClInclude Include="Components.h" />
     <ClInclude Include="CEntityManager.h" />
     <ClInclude Include="CSystems.h" />
