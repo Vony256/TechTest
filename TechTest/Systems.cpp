@@ -6,7 +6,7 @@ bool hasTag(const TagComponent& tagComponent, const std::string& tag) {
     return std::find(tagComponent.taglist.begin(), tagComponent.taglist.end(), tag) != tagComponent.taglist.end();
 }
 
-void physicsSystem(CEntityManager& entityManager) {
+void physicsSystem(CEntityManager& entityManager, float deltaTime) {
 }
 
 void renderSystem(CEntityManager& entityManager) {

@@ -32,7 +32,7 @@ void CAppStateMainMenu::OnDeactivate() {
 }
 
 void CAppStateMainMenu::OnLoop() {
-    physicsSystem(entityManager);
+    physicsSystem(entityManager, CTimer::GetInstance()->GetDeltaTime());
     gravitySystem(entityManager, CTimer::GetInstance()->GetDeltaTime());
 }
 
