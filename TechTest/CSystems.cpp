@@ -12,6 +12,9 @@ void physicsSystem(CEntityManager& entityManager) {
 void renderSystem(CEntityManager& entityManager) {
     //get basic window renderer
     SDL_Renderer* renderer = CWindow::windowControl.GetRenderer();
+    // we take the real position and scale it with the logical position
+    float scaleFactorWidth = CWindow::windowControl.getScaleFactorWidth();
+    float scaleFactorHeight = CWindow::windowControl.getScaleFactorHeight();
 
     for (Entity entity = 0; entity < entityManager.getEntityCount(); ++entity) {
         PrimitiveComponent* primitive = entityManager.getPrimitiveComponent(entity);
@@ -21,10 +24,10 @@ void renderSystem(CEntityManager& entityManager) {
         if (primitive != nullptr && position != nullptr) {
             // Create an SDL_Rect with the position and size from the components
             SDL_Rect rect;
-            rect.x = static_cast<int>(position->x); // Position X
-            rect.y = static_cast<int>(position->y); // Position Y
-            rect.w = primitive->width; // Width
-            rect.h = primitive->height; // Height
+            rect.x = static_cast<int>(position->x * scaleFactorWidth); // Position X
+            rect.y = static_cast<int>(position->y * scaleFactorHeight); // Position Y
+            rect.w = static_cast<int>(primitive->width * scaleFactorWidth); // Width
+            rect.h = static_cast<int>(primitive->height * scaleFactorHeight); // Height
 
             if (button) {
                 if (button->isVisible) {
@@ -57,6 +60,12 @@ void gravitySystem(CEntityManager& entityManager, float deltaTime) {
 }
 
 void onClickSystem(CEntityManager& entityManager, int mouseX, int mouseY) {
+    // we take the real position and scale it with the logical position
+    float scaleFactorWidth = CWindow::windowControl.getScaleFactorWidth();
+    float scaleFactorHeight = CWindow::windowControl.getScaleFactorHeight();
+    float scaledMouseX = mouseX / scaleFactorWidth;
+    float scaledMouseY = mouseY / scaleFactorHeight;
+
     for (Entity entity = 0; entity < entityManager.getEntityCount(); ++entity) {
         PositionComponent* position = entityManager.getPositionComponent(entity);
         PrimitiveComponent* primitive = entityManager.getPrimitiveComponent(entity);
@@ -65,7 +74,7 @@ void onClickSystem(CEntityManager& entityManager, int mouseX, int mouseY) {
 
         if (position && primitive) {
             // Check if the mouse click is within the entity's bounds
-            if (mouseX >= position->x && mouseX <= position->x + primitive->width && mouseY >= position->y && mouseY <= position->y + primitive->height) {
+            if (scaledMouseX >= position->x && scaledMouseX <= position->x + primitive->width && scaledMouseY >= position->y && scaledMouseY <= position->y + primitive->height) {
                 if (lambda) {
                     lambda->action();
                 }
