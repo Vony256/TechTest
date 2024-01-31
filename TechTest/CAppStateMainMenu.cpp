@@ -65,5 +65,12 @@ void CAppStateMainMenu::OnEvent(SDL_Event* Event) {
             }
             break;
         }
+
+        case SDL_KEYDOWN: {
+            if (Event->key.keysym.sym == SDLK_ESCAPE) {
+                CApp::GetInstance().OnExit();
+            }
+            break;
+        }
     }
 }

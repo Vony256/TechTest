@@ -15,9 +15,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Main.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
     <ClCompile Include="CTimer.cpp">
       <Filter>Other</Filter>
     </ClCompile>
@@ -40,6 +37,9 @@
       <Filter>GameStates</Filter>
     </ClCompile>
     <ClCompile Include="CStateManager.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="CApp.cpp">
       <Filter>Core</Filter>
     </ClCompile>
   </ItemGroup>
@@ -73,6 +73,9 @@
     </ClInclude>
     <ClInclude Include="CAppStateGame.h">
       <Filter>GameStates</Filter>
+    </ClInclude>
+    <ClInclude Include="CApp.h">
+      <Filter>Core</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
