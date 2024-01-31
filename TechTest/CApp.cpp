@@ -5,6 +5,9 @@ CApp* CApp::instance = nullptr;
 CApp::CApp() : Running(true), FPSlimit(60) {
 }
 
+CApp::~CApp() {
+}
+
 CApp& CApp::GetInstance() {
     if (instance == nullptr) {
         instance = new CApp();
@@ -41,7 +44,8 @@ void CApp::OnRender() {
 }
 
 void CApp::OnCleanup() {
-
+    delete instance;
+    instance = nullptr;
 }
 
 void CApp::OnExit(){
@@ -85,6 +89,7 @@ int CApp::OnExecute(){
     }
 
     SDL_Quit();
+    OnCleanup();
 
     return 0;
 }

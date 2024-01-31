@@ -17,8 +17,8 @@ class CApp{
         CApp(const CApp&) = delete;
         CApp& operator=(const CApp&) = delete;
 
-        // Private Constructor
         CApp();
+        ~CApp();
 
 	public:
         static CApp& GetInstance();
