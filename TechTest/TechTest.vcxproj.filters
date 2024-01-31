@@ -39,6 +39,9 @@
     <ClCompile Include="CAppStateGame.cpp">
       <Filter>GameStates</Filter>
     </ClCompile>
+    <ClCompile Include="CStateManager.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CState.h">

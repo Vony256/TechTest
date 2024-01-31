@@ -3,6 +3,8 @@
 #include <iostream>
 #include "CTimer.h"
 #include "Systems.h"
+#include "CStateManager.h"
+#include "CAppStateGame.h"
 
 
 CAppStateMainMenu::CAppStateMainMenu() {
@@ -17,6 +19,7 @@ void CAppStateMainMenu::OnActivate() {
     // create start button
     std::function<void()> startButtonAction = []() { // Define the start button action
         std::cout << "Start Button Pressed" << std::endl;
+        CStateManager::GetInstance().pushState(std::make_unique<CAppStateGame>());
     };
     factory.createButtonUI(250, 250, 400, 50, "Start", startButtonAction);
 

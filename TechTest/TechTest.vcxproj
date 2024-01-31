@@ -23,6 +23,7 @@
     <ClCompile Include="CAppStateMainMenu.cpp" />
     <ClCompile Include="CEntityFactory.cpp" />
     <ClCompile Include="CEntityManager.cpp" />
+    <ClCompile Include="CStateManager.cpp" />
     <ClCompile Include="Systems.cpp" />
     <ClCompile Include="CTimer.cpp" />
     <ClCompile Include="CWindow.cpp" />

@@ -3,6 +3,7 @@
 #include <iostream>
 #include "CTimer.h"
 #include "Systems.h"
+#include "CStateManager.h"
 
 
 CAppStateGame::CAppStateGame() {
@@ -48,6 +49,12 @@ void CAppStateGame::OnEvent(SDL_Event* Event) {
                     onClickSystem(entityManager, x, y);
                     break;
                 }
+            }
+            break;
+        }
+        case SDL_KEYDOWN: {
+            if (Event->key.keysym.sym == SDLK_ESCAPE) {
+                CStateManager::GetInstance().popState();
             }
             break;
         }
