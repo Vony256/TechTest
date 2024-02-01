@@ -1,5 +1,6 @@
 #include <string>
 #include <functional>
+#include <vector>
 
 struct SizeComponent {
     int width;
