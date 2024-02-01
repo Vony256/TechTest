@@ -32,17 +32,17 @@ void renderSystem(CEntityManager& entityManager) {
     float scaleFactorHeight = CWindow::windowControl.getScaleFactorHeight();
 
     for (Entity entity = 0; entity < entityManager.getEntityCount(); ++entity) {
-        PrimitiveComponent* primitive = entityManager.getPrimitiveComponent(entity);
+        SizeComponent* size = entityManager.getSizeComponent(entity);
         PositionComponent* position = entityManager.getPositionComponent(entity);
         ButtonComponent* button = entityManager.getButtonComponent(entity);
 
-        if (primitive != nullptr && position != nullptr) {
+        if (size != nullptr && position != nullptr) {
             // Create an SDL_Rect with the position and size from the components
             SDL_Rect rect;
             rect.x = static_cast<int>(position->x * scaleFactorWidth); // Position X
             rect.y = static_cast<int>(position->y * scaleFactorHeight); // Position Y
-            rect.w = static_cast<int>(primitive->width * scaleFactorWidth); // Width
-            rect.h = static_cast<int>(primitive->height * scaleFactorHeight); // Height
+            rect.w = static_cast<int>(size->width * scaleFactorWidth); // Width
+            rect.h = static_cast<int>(size->height * scaleFactorHeight); // Height
 
             if (button) {
                 if (button->isVisible) {
@@ -73,13 +73,13 @@ void onClickSystem(CEntityManager& entityManager, int mouseX, int mouseY) {
 
     for (Entity entity = 0; entity < entityManager.getEntityCount(); ++entity) {
         PositionComponent* position = entityManager.getPositionComponent(entity);
-        PrimitiveComponent* primitive = entityManager.getPrimitiveComponent(entity);
+        SizeComponent* size = entityManager.getSizeComponent(entity);
         LambdaComponent* lambda = entityManager.getLambdaComponent(entity);
         TagComponent* tags = entityManager.getTagComponent(entity);
 
-        if (position && primitive) {
+        if (position && size) {
             // Check if the mouse click is within the entity's bounds
-            if (scaledMouseX >= position->x && scaledMouseX <= position->x + primitive->width && scaledMouseY >= position->y && scaledMouseY <= position->y + primitive->height) {
+            if (scaledMouseX >= position->x && scaledMouseX <= position->x + size->width && scaledMouseY >= position->y && scaledMouseY <= position->y + size->height) {
                 if (lambda) { // what happenes when an entity has a lambda component
                     lambda->action();
                 }

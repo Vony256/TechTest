@@ -8,8 +8,8 @@ CEntityFactory::CEntityFactory(CEntityManager& manager) : entityManager(manager)
 Entity CEntityFactory::createBasicEntity(float x, float y, int width, int height) {
     Entity entity = entityManager.createEntity();
 
-    PrimitiveComponent primitive{ width, height };
-    entityManager.addPrimitiveComponent(entity, primitive);
+    SizeComponent size{ width, height };
+    entityManager.addSizeComponent(entity, size);
 
     PositionComponent translate{ x, y };
     entityManager.addPositionComponent(entity, translate);

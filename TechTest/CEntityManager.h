@@ -10,7 +10,7 @@ class CEntityManager {
         Entity nextEntity;
         unsigned int entityCount = 0;
 
-        std::unordered_map<Entity, PrimitiveComponent> primitiveComponents;
+        std::unordered_map<Entity, SizeComponent> sizeComponents;
         std::unordered_map<Entity, PositionComponent> positionComponents;
         std::unordered_map<Entity, NameComponent> nameComponents;
         std::unordered_map<Entity, GravityComponent> gravityComponents;
@@ -29,7 +29,7 @@ class CEntityManager {
         Entity createEntity();
         unsigned int getEntityCount();
 
-        void addPrimitiveComponent(Entity entity, const PrimitiveComponent& component);
+        void addSizeComponent(Entity entity, const SizeComponent& component);
         void addPositionComponent(Entity entity, const PositionComponent& component);
         void addNameComponent(Entity entity, const NameComponent& component);
         void addGravityComponent(Entity entity, const GravityComponent& component);
@@ -38,7 +38,7 @@ class CEntityManager {
         void addTextComponent(Entity entity, const TextComponent& component);
         void addButtonComponent(Entity entity, const ButtonComponent& component);
 
-        PrimitiveComponent* getPrimitiveComponent(Entity entity);
+        SizeComponent* getSizeComponent(Entity entity);
         PositionComponent* getPositionComponent(Entity entity);
         NameComponent* getNameComponent(Entity entity);
         GravityComponent* getGravityComponent(Entity entity);

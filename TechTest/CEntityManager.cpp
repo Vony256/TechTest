@@ -14,8 +14,8 @@ unsigned int CEntityManager::getEntityCount() {
 
 // Add Methods
 
-void CEntityManager::addPrimitiveComponent(Entity entity, const PrimitiveComponent& component) {
-    primitiveComponents[entity] = component;
+void CEntityManager::addSizeComponent(Entity entity, const SizeComponent& component) {
+    sizeComponents[entity] = component;
 }
 
 void CEntityManager::addPositionComponent(Entity entity, const PositionComponent& component) {
@@ -49,9 +49,9 @@ void CEntityManager::addButtonComponent(Entity entity, const ButtonComponent& co
 
 // Get Methods
 
-PrimitiveComponent* CEntityManager::getPrimitiveComponent(Entity entity) {
-    std::unordered_map<Entity, PrimitiveComponent>::iterator it = primitiveComponents.find(entity);
-    if (it != primitiveComponents.end()) {
+SizeComponent* CEntityManager::getSizeComponent(Entity entity) {
+    std::unordered_map<Entity, SizeComponent>::iterator it = sizeComponents.find(entity);
+    if (it != sizeComponents.end()) {
         return &(it->second);
     }
     return nullptr;

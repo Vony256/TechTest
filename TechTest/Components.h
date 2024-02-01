@@ -1,7 +1,7 @@
 #include <string>
 #include <functional>
 
-struct PrimitiveComponent {
+struct SizeComponent {
     int width;
     int height;
 };
