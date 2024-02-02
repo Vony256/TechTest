@@ -26,7 +26,7 @@ void CAppStateMainMenu::OnActivate() {
     // Create basic entity
     factory.createBasicEntity(100, 100, 50, 50);
     // Create entity with gravity
-    factory.createGravityEntity(200, 200, 20, 50, 9.8f);
+    factory.createGravityEntity(200, 200, 20, 50, 98.0f);
 }
 
 void CAppStateMainMenu::OnDeactivate() {
@@ -34,8 +34,8 @@ void CAppStateMainMenu::OnDeactivate() {
 }
 
 void CAppStateMainMenu::OnLoop() {
-    physicsSystem(entityManager, CTimer::GetInstance()->GetDeltaTime());
     gravitySystem(entityManager, CTimer::GetInstance()->GetDeltaTime());
+    physicsSystem(entityManager, CTimer::GetInstance()->GetDeltaTime()); //we do everything before physics because phisics ultimatly moves the objects
 }
 
 void CAppStateMainMenu::OnRender() {

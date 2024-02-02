@@ -9,16 +9,25 @@ bool hasTag(const TagComponent& tagComponent, const std::string& tag) {
 
 // core movement, momentem and whatnot
 void physicsSystem(CEntityManager& entityManager, float deltaTime) {
+    for (Entity entity = 0; entity < entityManager.getEntityCount(); ++entity) {
+        VelocityComponent* velocity = entityManager.getVelocityComponent(entity);
+        PositionComponent* position = entityManager.getPositionComponent(entity);
+
+        if (position && velocity) {
+            position->x += velocity->xSpeed * deltaTime;
+            position->y += velocity->ySpeed * deltaTime;
+        }
+    }
 }
 
 // How gravity works
 void gravitySystem(CEntityManager& entityManager, float deltaTime) {
     for (Entity entity = 0; entity < entityManager.getEntityCount(); ++entity) {
-        PositionComponent* position = entityManager.getPositionComponent(entity);
         GravityComponent* gravity = entityManager.getGravityComponent(entity);
+        VelocityComponent* velocity = entityManager.getVelocityComponent(entity);
 
-        if (position && gravity) {
-            position->y += gravity->gravityScale * deltaTime;
+        if (gravity && velocity) {
+            velocity->ySpeed += gravity->gravityScale * deltaTime;
         }
     }
 }
@@ -76,6 +85,7 @@ void onClickSystem(CEntityManager& entityManager, int mouseX, int mouseY) {
         SizeComponent* size = entityManager.getSizeComponent(entity);
         LambdaComponent* lambda = entityManager.getLambdaComponent(entity);
         TagComponent* tags = entityManager.getTagComponent(entity);
+        VelocityComponent* velocity = entityManager.getVelocityComponent(entity);
 
         if (position && size) {
             // Check if the mouse click is within the entity's bounds
@@ -88,6 +98,9 @@ void onClickSystem(CEntityManager& entityManager, int mouseX, int mouseY) {
                         std::cout << "[" << tags->taglist[i] << "] ";
                     }
                     std::cout << std::endl;
+                }
+                if (velocity) {
+                    std::cout << "xSpeed: " << velocity->xSpeed << "ySpeed " << velocity->ySpeed << std::endl;
                 }
             }
         }

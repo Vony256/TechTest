@@ -22,6 +22,10 @@ void CEntityManager::addPositionComponent(Entity entity, const PositionComponent
     positionComponents[entity] = component;
 }
 
+void CEntityManager::addVelocityComponent(Entity entity, const VelocityComponent& component) {
+    velocityComponents[entity] = component;
+}
+
 void CEntityManager::addNameComponent(Entity entity, const NameComponent& component) {
     nameComponents[entity] = component;
 }
@@ -60,6 +64,14 @@ SizeComponent* CEntityManager::getSizeComponent(Entity entity) {
 PositionComponent* CEntityManager::getPositionComponent(Entity entity) {
     std::unordered_map<Entity, PositionComponent>::iterator it = positionComponents.find(entity);
     if (it != positionComponents.end()) {
+        return &(it->second);
+    }
+    return nullptr;
+}
+
+VelocityComponent* CEntityManager::getVelocityComponent(Entity entity) {
+    std::unordered_map<Entity, VelocityComponent>::iterator it = velocityComponents.find(entity);
+    if (it != velocityComponents.end()) {
         return &(it->second);
     }
     return nullptr;

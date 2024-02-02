@@ -12,6 +12,7 @@ class CEntityManager {
 
         std::unordered_map<Entity, SizeComponent> sizeComponents;
         std::unordered_map<Entity, PositionComponent> positionComponents;
+        std::unordered_map<Entity, VelocityComponent> velocityComponents;
         std::unordered_map<Entity, NameComponent> nameComponents;
         std::unordered_map<Entity, GravityComponent> gravityComponents;
         std::unordered_map<Entity, LambdaComponent> lambdaComponents;
@@ -31,6 +32,7 @@ class CEntityManager {
 
         void addSizeComponent(Entity entity, const SizeComponent& component);
         void addPositionComponent(Entity entity, const PositionComponent& component);
+        void addVelocityComponent(Entity entity, const VelocityComponent& component);
         void addNameComponent(Entity entity, const NameComponent& component);
         void addGravityComponent(Entity entity, const GravityComponent& component);
         void addLambdaComponent(Entity entity, const LambdaComponent& component);
@@ -40,6 +42,7 @@ class CEntityManager {
 
         SizeComponent* getSizeComponent(Entity entity);
         PositionComponent* getPositionComponent(Entity entity);
+        VelocityComponent* getVelocityComponent(Entity entity);
         NameComponent* getNameComponent(Entity entity);
         GravityComponent* getGravityComponent(Entity entity);
         LambdaComponent* getLambdaComponent(Entity entity);

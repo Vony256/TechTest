@@ -12,6 +12,11 @@ struct PositionComponent {
     float y;
 };
 
+struct VelocityComponent {
+    float xSpeed;
+    float ySpeed;
+};
+
 struct NameComponent {
     std::string name;
 };
