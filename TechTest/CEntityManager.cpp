@@ -46,10 +46,9 @@ void CEntityManager::addTextComponent(Entity entity, const TextComponent& compon
     textComponents[entity] = component;
 }
 
-void CEntityManager::addButtonComponent(Entity entity, const ButtonComponent& component) {
-    buttonComponents[entity] = component;
+void CEntityManager::addUIComponent(Entity entity, const UIComponent& component) {
+    uiComponents[entity] = component;
 }
-
 
 // Get Methods
 
@@ -117,9 +116,9 @@ TextComponent* CEntityManager::getTextComponent(Entity entity) {
     return nullptr;
 }
 
-ButtonComponent* CEntityManager::getButtonComponent(Entity entity) {
-    std::unordered_map<Entity, ButtonComponent>::iterator it = buttonComponents.find(entity);
-    if (it != buttonComponents.end()) {
+UIComponent* CEntityManager::getUIComponent(Entity entity) {
+    std::unordered_map<Entity, UIComponent>::iterator it = uiComponents.find(entity);
+    if (it != uiComponents.end()) {
         return &(it->second);
     }
     return nullptr;

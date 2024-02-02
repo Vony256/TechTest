@@ -37,7 +37,13 @@ struct TextComponent {
     std::string text;
 };
 
-struct ButtonComponent {
+struct UIComponent {
+    enum class Type {
+        Button,
+        SomethingElse,
+    };
+
+    Type uiType;
     bool isEnabled;
     bool isVisible;
 };

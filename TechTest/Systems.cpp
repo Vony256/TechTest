@@ -51,7 +51,7 @@ void renderSystem(CEntityManager& entityManager) {
     for (Entity entity = 0; entity < entityManager.getEntityCount(); ++entity) {
         SizeComponent* size = entityManager.getSizeComponent(entity);
         PositionComponent* position = entityManager.getPositionComponent(entity);
-        ButtonComponent* button = entityManager.getButtonComponent(entity);
+        UIComponent* ui = entityManager.getUIComponent(entity);
 
         if (size != nullptr && position != nullptr) {
             // Create an SDL_Rect with the position and size from the components
@@ -61,8 +61,8 @@ void renderSystem(CEntityManager& entityManager) {
             rect.w = static_cast<int>(size->width * scaleFactorWidth); // Width
             rect.h = static_cast<int>(size->height * scaleFactorHeight); // Height
 
-            if (button) {
-                if (button->isVisible) {
+            if (ui) {
+                if (ui->isVisible && ui->uiType == UIComponent::Type::Button) {
                     SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
                     SDL_RenderDrawRect(renderer, &rect);
 

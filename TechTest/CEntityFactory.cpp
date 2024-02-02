@@ -50,8 +50,8 @@ Entity CEntityFactory::createButtonUI(float x, float y, int width, int height, s
     TextComponent textcomponent{ text };
     entityManager.addTextComponent(entity, textcomponent);
 
-    ButtonComponent buttoncomponent{ true, true };
-    entityManager.addButtonComponent(entity, buttoncomponent);
+    UIComponent uicomponent{ UIComponent::Type::Button, true, true};
+    entityManager.addUIComponent(entity, uicomponent);
 
     /*
     // Retrieve the existing TagComponent
