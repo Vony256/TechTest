@@ -108,7 +108,8 @@ void onClickSystem(CEntityManager& entityManager, int mouseX, int mouseY) {
                     std::cout << std::endl;
                 }
                 if (velocity) {
-                    std::cout << "xSpeed: " << velocity->xSpeed << "ySpeed " << velocity->ySpeed << std::endl;
+                    std::cout << "xSpeed: " << velocity->xSpeed << std::endl;
+                    std::cout << "ySpeed: " << velocity->ySpeed << std::endl;
                 }
             }
         }
