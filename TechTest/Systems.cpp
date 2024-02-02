@@ -12,10 +12,18 @@ void physicsSystem(CEntityManager& entityManager, float deltaTime) {
     for (Entity entity = 0; entity < entityManager.getEntityCount(); ++entity) {
         VelocityComponent* velocity = entityManager.getVelocityComponent(entity);
         PositionComponent* position = entityManager.getPositionComponent(entity);
+        GravityComponent* gravity = entityManager.getGravityComponent(entity);
+        SizeComponent* size = entityManager.getSizeComponent(entity);
 
         if (position && velocity) {
             position->x += velocity->xSpeed * deltaTime;
             position->y += velocity->ySpeed * deltaTime;
+        }
+        if (gravity && velocity && position) {
+            if (position->y + size->height > CWindow::windowControl.getLogicalHeight()) {
+                velocity->ySpeed = -velocity->ySpeed;
+                position->y = CWindow::windowControl.getLogicalHeight() - size->height;
+            }
         }
     }
 }

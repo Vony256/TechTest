@@ -61,14 +61,14 @@ int CApp::OnExecute(){
     // get a reference to the timer
     CTimer* timer = CTimer::GetInstance();
 
-    const int frameDelay = 1000 / FPSlimit;
-    Uint32 frameStart;
-    int frameTime;
+    const float frameDelay = 1.0f / FPSlimit;
+    Uint64 frameStart;
+    float frameTime;
 
     SDL_Event event;
 
     while (Running) {
-        frameStart = SDL_GetTicks();
+        frameStart = SDL_GetPerformanceCounter();
 
         while (SDL_PollEvent(&event) != 0) {
             if (event.type == SDL_QUIT) {
@@ -82,9 +82,12 @@ int CApp::OnExecute(){
         OnLoop();
         OnRender();
 
-        frameTime = SDL_GetTicks() - frameStart;
+        // Calculate the frame time using the high precision timer
+        frameTime = static_cast<float>(SDL_GetPerformanceCounter() - frameStart) / SDL_GetPerformanceFrequency();
+
+        // If the frame processed faster than our frame limit, delay the necessary amount
         if (frameDelay > frameTime) {
-            SDL_Delay(frameDelay - frameTime);
+            SDL_Delay(static_cast<Uint32>((frameDelay - frameTime) * 1000.0f)); // Convert seconds to milliseconds
         }
     }
 
