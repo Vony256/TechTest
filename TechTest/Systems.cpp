@@ -22,7 +22,7 @@ void physicsSystem(CEntityManager& entityManager, float deltaTime) {
         if (gravity && velocity && position) {
             if (position->y + size->height > CWindow::windowControl.getLogicalHeight()) {
                 velocity->ySpeed = -velocity->ySpeed;
-                position->y = CWindow::windowControl.getLogicalHeight() - size->height;
+                position->y = static_cast<float>(CWindow::windowControl.getLogicalHeight() - size->height);
             }
         }
     }
