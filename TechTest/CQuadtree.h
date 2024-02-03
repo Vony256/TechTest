@@ -2,40 +2,30 @@
 
 #include <vector>
 #include <array>
-#include <SDL.h>
 
-#include "CEntityManager.h"
+struct Rect {
+    float x, y, width, height;
 
-using Entity = unsigned int;
+    Rect(float _x, float _y, float _width, float _height) : x(_x), y(_y), width(_width), height(_height) {}
+};
 
 class CQuadtree {
+    private:
+        static const int MAX_ENTITIES; // Maximum entities before splitting
+        static const int MAX_LEVELS;   // Maximum depth of the quadtree
+
+        int level;                             // Current depth level
+        std::vector<unsigned int> entities;    // Entities in this quadtree node
+        Rect bounds;                          // Boundary of this node
+        std::array<CQuadtree*, 4> children;    // Child quadrants
+
     public:
-        CQuadtree(int level, float x, float y, float width, float height);
+        CQuadtree(int _Level, Rect _Bounds);
         ~CQuadtree();
 
-        // Disable copy constructor and assignment operator
-        CQuadtree(const CQuadtree&) = delete;
-        CQuadtree& operator=(const CQuadtree&) = delete;
-
-        void Insert(Entity entity, CEntityManager& entityManager);
-        void Clear();
-        std::vector<Entity> Query(float x, float y, float width, float height) const;
-        void DebugRender(SDL_Renderer* renderer);
-
-    private:
-        struct QuadtreeNode {
-            float x, y, width, height;
-            std::vector<Entity> entities;
-            QuadtreeNode(float x, float y, float width, float height) : x(x), y(y), width(width), height(height) {}
-        };
-
-        const int MAX_LEVELS = 5;
-        const int MAX_ENTITIES = 10;
-        int m_level;
-        QuadtreeNode m_bounds;
-        std::array<CQuadtree*, 4> m_children;
-
-        void Subdivide();
-        int GetIndex(float x, float y, float width, float height) const;
-        bool fitsInBoundary(Entity entity, const PositionComponent& position, const SizeComponent& size) const;
+        int getIndex(const Rect& area) const;
+        void split();
+        void insert(unsigned int entity, float x, float y, float width, float height);
+        std::vector<unsigned int> query(const Rect& range);
+        void clear();
 };

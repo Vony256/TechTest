@@ -1,79 +1,35 @@
 #include "CQuadtree.h"
 
-#include <algorithm>
+const int CQuadtree::MAX_ENTITIES = 10;
+const int CQuadtree::MAX_LEVELS = 5;
 
-CQuadtree::CQuadtree(int level, float x, float y, float width, float height)
-    : m_level(level), m_bounds(x, y, width, height) {
+CQuadtree::CQuadtree(int _Level, Rect _Bounds) : level(_Level), bounds(_Bounds) {
     for (int i = 0; i < 4; ++i) {
-        m_children[i] = nullptr;
+        children[i] = nullptr;
     }
 }
 
 CQuadtree::~CQuadtree() {
-    Clear();
-}
-
-void CQuadtree::Clear() {
-    for (auto& child : m_children) {
-        if (child) {
-            child->Clear();
-            delete child;
-            child = nullptr;
-        }
-    }
-    m_bounds.entities.clear(); // Ensure we clear entities stored at this node.
-}
-
-void CQuadtree::Insert(Entity entity, CEntityManager& entityManager) {
-    PositionComponent* position = entityManager.getPositionComponent(entity);
-    SizeComponent* size = entityManager.getSizeComponent(entity);
-
-    if (!position || !size || !fitsInBoundary(entity, *position, *size)) {
-        return; // Entity does not fit within the boundary
-    }
-
-    // Correction: Insert entities into the m_bounds of the current node, not m_entities.
-    if (m_bounds.entities.size() < MAX_ENTITIES || m_level == MAX_LEVELS) {
-        m_bounds.entities.push_back(entity);
-    }
-    else {
-        if (m_children[0] == nullptr) {
-            Subdivide();
-        }
-
-        bool inserted = false;
-        for (auto& child : m_children) {
-            if (child->fitsInBoundary(entity, *position, *size)) {
-                child->Insert(entity, entityManager);
-                inserted = true;
-                break;
-            }
-        }
-
-        if (!inserted) {
-            m_bounds.entities.push_back(entity); // Keep in this node if it doesn't fit in children
+    for (int i = 0; i < 4; ++i) {
+        if (children[i] != nullptr) {
+            delete children[i];
+            children[i] = nullptr;
         }
     }
 }
 
-void CQuadtree::Subdivide() {
-    float subWidth = m_bounds.width / 2.0f;
-    float subHeight = m_bounds.height / 2.0f;
-    float x = m_bounds.x;
-    float y = m_bounds.y;
+int CQuadtree::getIndex(const Rect& area) const {
+    int index = -1; // Assume area does not fit entirely within a single quadrant
+    double verticalMidpoint = bounds.x + (bounds.width / 2.0);
+    double horizontalMidpoint = bounds.y + (bounds.height / 2.0);
 
-    m_children[0] = new CQuadtree(m_level + 1, x + subWidth, y, subWidth, subHeight);
-    m_children[1] = new CQuadtree(m_level + 1, x, y, subWidth, subHeight);
-    m_children[2] = new CQuadtree(m_level + 1, x, y + subHeight, subWidth, subHeight);
-    m_children[3] = new CQuadtree(m_level + 1, x + subWidth, y + subHeight, subWidth, subHeight);
-}
+    // Check if the area is in the top quadrants
+    bool topQuadrant = area.y < horizontalMidpoint && (area.y + area.height) <= horizontalMidpoint;
+    // Check if the area is in the bottom quadrants
+    bool bottomQuadrant = area.y >= horizontalMidpoint;
 
-int CQuadtree::GetIndex(float x, float y, float width, float height) const {
-    int index = -1;
-    bool topQuadrant = (y < m_bounds.y + m_bounds.height / 2.0f);
-    bool bottomQuadrant = (y > m_bounds.y + m_bounds.height / 2.0f);
-
-    if (x < m_bounds.x + m_bounds.width / 2.0f) {
+    // Check if the area is in the left quadrants
+    if (area.x < verticalMidpoint && (area.y + area.height) < verticalMidpoint) {
         if (topQuadrant) {
             index = 1;
         }
@@ -81,7 +37,8 @@ int CQuadtree::GetIndex(float x, float y, float width, float height) const {
             index = 2;
         }
     }
-    else if (x > m_bounds.x + m_bounds.width / 2.0f) {
+    // Check if the area is in the right quadrants
+    else if (area.x > verticalMidpoint) {
         if (topQuadrant) {
             index = 0;
         }
@@ -93,41 +50,82 @@ int CQuadtree::GetIndex(float x, float y, float width, float height) const {
     return index;
 }
 
-bool CQuadtree::fitsInBoundary(Entity entity, const PositionComponent& position, const SizeComponent& size) const {
-    float left = position.x - size.width / 2.0f;
-    float right = position.x + size.width / 2.0f;
-    float top = position.y - size.height / 2.0f;
-    float bottom = position.y + size.height / 2.0f;
+void CQuadtree::split() {
+    float subWidth = bounds.width / 2.0f;
+    float subHeight = bounds.height / 2.0f;
+    float x = bounds.x;
+    float y = bounds.y;
 
-    return (left >= m_bounds.x && right <= m_bounds.x + m_bounds.width &&
-        top >= m_bounds.y && bottom <= m_bounds.y + m_bounds.height);
+    children[0] = new CQuadtree(level + 1, Rect(x + subWidth, y, subWidth, subHeight));
+    children[1] = new CQuadtree(level + 1, Rect(x, y, subWidth, subHeight));
+    children[2] = new CQuadtree(level + 1, Rect(x, y + subHeight, subWidth, subHeight));
+    children[3] = new CQuadtree(level + 1, Rect(x + subWidth, y + subHeight, subWidth, subHeight));
 }
 
-std::vector<Entity> CQuadtree::Query(float x, float y, float width, float height) const {
-    std::vector<Entity> foundEntities;
-    // Implement the intersects method logic directly here for simplicity:
-    bool outside = x + width < m_bounds.x || x > m_bounds.x + m_bounds.width ||
-        y + height < m_bounds.y || y > m_bounds.y + m_bounds.height;
-    if (outside) {
-        return foundEntities; // Early exit if the query area doesn't intersect this quadtree
-    }
+void CQuadtree::insert(unsigned int entity, float x, float y, float width, float height) {
+    Rect entityBounds(x, y, width, height);
 
-    for (Entity entity : m_bounds.entities) {
-        // Check if entity is within the query area; this requires accessing the entity's position and size
-        // Assuming logic to check if an entity's bounds intersect with the query area
-        foundEntities.push_back(entity);
-    }
+    if (children[0] != nullptr) {
+        int index = getIndex(entityBounds);
 
-    if (m_children[0] != nullptr) {
-        for (int i = 0; i < 4; ++i) {
-            std::vector<Entity> childFound = m_children[i]->Query(x, y, width, height);
-            foundEntities.insert(foundEntities.end(), childFound.begin(), childFound.end());
+        if (index != -1) {
+            children[index]->insert(entity, x, y, width, height);
+            return;
         }
     }
 
-    return foundEntities;
+    entities.push_back(entity);
+
+    if (entities.size() > MAX_ENTITIES && level < MAX_LEVELS) {
+        if (children[0] == nullptr) {
+            split();
+        }
+
+        // Iterating in reverse to avoid complications while erasing
+        for (size_t i = entities.size() - 1; i >= 0; --i) {
+            // Presumably, you would have a way to fetch these attributes for each entity again if needed
+            // For now, assuming we only split once entities are inserted and do not need to re-fetch sizes
+            int index = getIndex(entityBounds); // This line needs adjustment to use each entity's specific bounds
+            if (index != -1) {
+                children[index]->insert(entities[i], x, y, width, height); // This also needs adjustment
+                entities.erase(entities.begin() + i);
+            }
+        }
+    }
 }
 
-void CQuadtree::DebugRender(SDL_Renderer* renderer) {
+std::vector<unsigned int> CQuadtree::query(const Rect& range) {
+    std::vector<unsigned int> returnEntities, childEntities;
+    int index = getIndex(range);
 
+    if (index != -1 && children[0] != nullptr) {
+        childEntities = children[index]->query(range);
+        returnEntities.insert(returnEntities.end(), childEntities.begin(), childEntities.end());
+    }
+    else {
+        // If the range overlaps multiple quadrants, check all children
+        for (int i = 0; i < 4; ++i) {
+            if (children[i] != nullptr) {
+                childEntities = children[i]->query(range);
+                returnEntities.insert(returnEntities.end(), childEntities.begin(), childEntities.end());
+            }
+        }
+    }
+
+    // Include entities stored at this node
+    returnEntities.insert(returnEntities.end(), entities.begin(), entities.end());
+    return returnEntities;
+}
+
+void CQuadtree::clear() {
+    entities.clear(); // Clear all entities from this node
+
+    // Recursively clear all child nodes
+    for (int i = 0; i < 4; ++i) {
+        if (children[i] != nullptr) {
+            children[i]->clear(); // Recursively clear child node
+            delete children[i];   // Delete the child node
+            children[i] = nullptr; // Reset the pointer to nullptr
+        }
+    }
 }

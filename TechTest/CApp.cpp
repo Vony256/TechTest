@@ -52,6 +52,10 @@ void CApp::OnExit(){
     Running = false;
 }
 
+void CApp::OnEvent(SDL_Event* Event) {
+}
+
+
 int CApp::OnExecute(){
     OnInit();
 
