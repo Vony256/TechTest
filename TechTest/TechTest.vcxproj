@@ -24,7 +24,10 @@
     <ClCompile Include="CAppStateMainMenu.cpp" />
     <ClCompile Include="CEntityFactory.cpp" />
     <ClCompile Include="CEntityManager.cpp" />
+    <ClCompile Include="CQuadtree.cpp" />
+    <ClCompile Include="CRect.cpp" />
     <ClCompile Include="CStateManager.cpp" />
+    <ClCompile Include="CVector2D.cpp" />
     <ClCompile Include="Systems.cpp" />
     <ClCompile Include="CTimer.cpp" />
     <ClCompile Include="CWindow.cpp" />
@@ -36,6 +39,9 @@
     <ClInclude Include="CEntityFactory.h" />
     <ClInclude Include="Components.h" />
     <ClInclude Include="CEntityManager.h" />
+    <ClInclude Include="CQuadtree.h" />
+    <ClInclude Include="CRect.h" />
+    <ClInclude Include="CVector2D.h" />
     <ClInclude Include="Systems.h" />
     <ClInclude Include="CTimer.h" />
     <ClInclude Include="CState.h" />

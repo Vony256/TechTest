@@ -42,6 +42,15 @@
     <ClCompile Include="CApp.cpp">
       <Filter>Core</Filter>
     </ClCompile>
+    <ClCompile Include="CQuadtree.cpp">
+      <Filter>Other</Filter>
+    </ClCompile>
+    <ClCompile Include="CRect.cpp">
+      <Filter>Other</Filter>
+    </ClCompile>
+    <ClCompile Include="CVector2D.cpp">
+      <Filter>Other</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CState.h">
@@ -76,6 +85,15 @@
     </ClInclude>
     <ClInclude Include="CApp.h">
       <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="CQuadtree.h">
+      <Filter>Other</Filter>
+    </ClInclude>
+    <ClInclude Include="CRect.h">
+      <Filter>Other</Filter>
+    </ClInclude>
+    <ClInclude Include="CVector2D.h">
+      <Filter>Other</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
