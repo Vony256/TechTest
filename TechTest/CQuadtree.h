@@ -11,8 +11,10 @@ struct Rect {
 
 class CQuadtree {
     private:
-        static const int MAX_ENTITIES; // Maximum entities before splitting
-        static const int MAX_LEVELS;   // Maximum depth of the quadtree
+        static const int MAX_ENTITIES = 10; // Maximum entities before splitting
+        static const int MAX_LEVELS = 5;   // Maximum depth of the quadtree
+
+        static CQuadtree* instance;
 
         int level;                             // Current depth level
         std::vector<unsigned int> entities;    // Entities in this quadtree node
@@ -22,6 +24,9 @@ class CQuadtree {
     public:
         CQuadtree(int _Level, Rect _Bounds);
         ~CQuadtree();
+
+        static CQuadtree* GetInstance();
+        static void init(int _Level, Rect _Bounds);
 
         int getIndex(const Rect& area) const;
         void split();

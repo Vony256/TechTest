@@ -1,12 +1,25 @@
 #include "CQuadtree.h"
 
-const int CQuadtree::MAX_ENTITIES = 10;
-const int CQuadtree::MAX_LEVELS = 5;
+#include <iostream>
+
+CQuadtree* CQuadtree::instance = nullptr;
 
 CQuadtree::CQuadtree(int _Level, Rect _Bounds) : level(_Level), bounds(_Bounds) {
     for (int i = 0; i < 4; ++i) {
         children[i] = nullptr;
     }
+}
+
+
+void CQuadtree::init(int _Level, Rect _Bounds) {
+    instance = new CQuadtree(_Level, _Bounds);
+}
+
+CQuadtree* CQuadtree::GetInstance() {
+    if (instance == nullptr) {
+        std::cout << "Instance not initialized." << std::endl;
+    }
+    return instance;
 }
 
 CQuadtree::~CQuadtree() {
