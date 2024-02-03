@@ -10,14 +10,17 @@ CQuadtree::CQuadtree(int _Level, Rect _Bounds) : level(_Level), bounds(_Bounds) 
     }
 }
 
-
 void CQuadtree::init(int _Level, Rect _Bounds) {
+    if (instance != nullptr) {
+        delete instance;
+    }
     instance = new CQuadtree(_Level, _Bounds);
 }
 
 CQuadtree* CQuadtree::GetInstance() {
     if (instance == nullptr) {
         std::cout << "Instance not initialized." << std::endl;
+        instance = new CQuadtree(0, { 0, 0, 0, 0 });
     }
     return instance;
 }
