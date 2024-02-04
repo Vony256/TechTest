@@ -127,10 +127,17 @@ void CQuadtree::clear() {
 }
 
 void CQuadtree::render(SDL_Renderer* renderer) const {
-    SDL_Rect rect = { static_cast<int>(bounds.x), static_cast<int>(bounds.y), static_cast<int>(bounds.width), static_cast<int>(bounds.height) };
-    SDL_SetRenderDrawColor(renderer, 255, 255, 255, SDL_ALPHA_OPAQUE);
-    SDL_RenderDrawRect(renderer, &rect);
+    float scaleFactorWidth = CWindow::windowControl.getScaleFactorWidth();
+    float scaleFactorHeight = CWindow::windowControl.getScaleFactorHeight();
 
+    if (!entities.empty()) {
+        SDL_Rect rect = { static_cast<int>(bounds.x * scaleFactorWidth), static_cast<int>(bounds.y * scaleFactorHeight), static_cast<int>(bounds.width * scaleFactorWidth), static_cast<int>(bounds.height * scaleFactorHeight) };
+        SDL_SetRenderDrawColor(renderer, 255, 255, 255, 50);
+        SDL_RenderDrawRect(renderer, &rect);
+        SDL_SetRenderDrawColor(renderer, 255, 255, 255, 20);
+        SDL_RenderFillRect(renderer, &rect);
+    }
+    
     if (children[0] != nullptr) {
         for (int i = 0; i < 4; ++i) {
             if (children[i] != nullptr) {

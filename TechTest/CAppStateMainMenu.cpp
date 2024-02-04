@@ -7,7 +7,7 @@
 #include "CAppStateGame.h"
 
 
-CAppStateMainMenu::CAppStateMainMenu() : quadtree(0, Rect(0, 0, 1600, 900)) {
+CAppStateMainMenu::CAppStateMainMenu() : quadtree(0, Rect(0, 0, 1920, 1080)) {
 }
 
 CAppStateMainMenu::~CAppStateMainMenu() {
