@@ -2,7 +2,7 @@
 
 CApp* CApp::instance = nullptr;
 
-CApp::CApp() : Running(true), FPSlimit(60) {
+CApp::CApp() : Running(true), FPSlimit(0) {
 }
 
 CApp::~CApp() {
@@ -90,8 +90,10 @@ int CApp::OnExecute(){
         frameTime = static_cast<float>(SDL_GetPerformanceCounter() - frameStart) / SDL_GetPerformanceFrequency();
 
         // If the frame processed faster than our frame limit, delay the necessary amount
-        if (frameDelay > frameTime) {
-            SDL_Delay(static_cast<Uint32>((frameDelay - frameTime) * 1000.0f)); // Convert seconds to milliseconds
+        if (FPSlimit != 0) {
+            if (frameDelay > frameTime) {
+                SDL_Delay(static_cast<Uint32>((frameDelay - frameTime) * 1000.0f)); // Convert seconds to milliseconds
+            }
         }
     }
 

@@ -1,10 +1,12 @@
 #include "CAppStateMainMenu.h"
 
 #include <iostream>
+#include <string>
 #include "CTimer.h"
 #include "Systems.h"
 #include "CStateManager.h"
 #include "CAppStateGame.h"
+#include "CTTFManager.h"
 
 
 CAppStateMainMenu::CAppStateMainMenu() : quadtree(0, Rect(0, 0, static_cast<float>(CWindow::windowControl.getLogicalWidth()), static_cast<float>(CWindow::windowControl.getLogicalHeight()))) {
@@ -15,6 +17,14 @@ CAppStateMainMenu::~CAppStateMainMenu() {
 }
 
 void CAppStateMainMenu::OnActivate() {
+    //ttf stuff, probably shouldnt be here
+    //init ttf
+    if (TTF_Init() < 0) {
+        std::cerr << "Failed to initialize SDL_ttf: " << TTF_GetError() << std::endl;
+    }
+    CTTFManager::getInstance()->loadFont("MainFont", "data/arial.ttf", 24);
+    //cttf
+
     CEntityFactory factory(entityManager); //create a factory and point it towards our entity manager
 
     // create start button
@@ -43,6 +53,8 @@ void CAppStateMainMenu::OnLoop() {
 void CAppStateMainMenu::OnRender() {
     renderSystem(entityManager);
     //quadtree.render(CWindow::windowControl.GetRenderer());
+
+    CTTFManager::getInstance()->renderText(std::to_string(CTimer::GetInstance()->GetFPS()), 10, 10, CWindow::windowControl.getScaleFactorWidth(), "MainFont");
 }
 
 void CAppStateMainMenu::OnEvent(SDL_Event* Event) {

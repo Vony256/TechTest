@@ -51,6 +51,9 @@
     <ClCompile Include="CVector2D.cpp">
       <Filter>Other</Filter>
     </ClCompile>
+    <ClCompile Include="CTTFManager.cpp">
+      <Filter>Other</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CState.h">
@@ -93,6 +96,9 @@
       <Filter>Other</Filter>
     </ClInclude>
     <ClInclude Include="CVector2D.h">
+      <Filter>Other</Filter>
+    </ClInclude>
+    <ClInclude Include="CTTFManager.h">
       <Filter>Other</Filter>
     </ClInclude>
   </ItemGroup>
