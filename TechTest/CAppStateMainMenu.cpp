@@ -17,14 +17,6 @@ CAppStateMainMenu::~CAppStateMainMenu() {
 }
 
 void CAppStateMainMenu::OnActivate() {
-    //ttf stuff, probably shouldnt be here
-    //init ttf
-    if (TTF_Init() < 0) {
-        std::cerr << "Failed to initialize SDL_ttf: " << TTF_GetError() << std::endl;
-    }
-    CTTFManager::getInstance()->loadFont("MainFont", "data/arial.ttf", 24);
-    //cttf
-
     CEntityFactory factory(entityManager); //create a factory and point it towards our entity manager
 
     // create start button

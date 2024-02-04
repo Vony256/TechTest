@@ -1,8 +1,10 @@
 #include "CApp.h"
 
+#include "CTTFManager.h"
+
 CApp* CApp::instance = nullptr;
 
-CApp::CApp() : Running(true), FPSlimit(0) {
+CApp::CApp() : Running(true), FPSlimit(60) {
 }
 
 CApp::~CApp() {
@@ -21,6 +23,11 @@ bool CApp::OnInit() {
         return false;
     }
 
+    if (TTF_Init() < 0) {
+        std::cerr << "Failed to initialize SDL_ttf: " << TTF_GetError() << std::endl;
+    }
+
+    CTTFManager::getInstance()->loadFont("MainFont", "data/arial.ttf", 24);
     CWindow::windowControl.initWindow();
 
     return true;
