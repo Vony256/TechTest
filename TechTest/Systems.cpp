@@ -1,6 +1,7 @@
 #include <SDL.h>
 #include "CWindow.h"
 #include "Systems.h"
+#include "CTTFManager.h"
 
 //function to search through the tag component for a specific tag
 bool hasTag(const TagComponent& tagComponent, const std::string& tag) {
@@ -52,6 +53,7 @@ void renderSystem(CEntityManager& entityManager) {
         SizeComponent* size = entityManager.getSizeComponent(entity);
         PositionComponent* position = entityManager.getPositionComponent(entity);
         UIComponent* ui = entityManager.getUIComponent(entity);
+        TextComponent* text = entityManager.getTextComponent(entity);
 
         if (size != nullptr && position != nullptr) {
             // Create an SDL_Rect with the position and size from the components
@@ -62,12 +64,14 @@ void renderSystem(CEntityManager& entityManager) {
             rect.h = static_cast<int>(size->height * scaleFactorHeight); // Height
 
             if (ui) {
-                if (ui->isVisible && ui->uiType == UIComponent::Type::Button) {
+                if (ui->isVisible && ui->uiType == UIComponent::Type::Button && text) {
                     SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
                     SDL_RenderDrawRect(renderer, &rect);
 
-                    SDL_SetRenderDrawColor(renderer, 255, 255, 255, 100);
-                    SDL_RenderFillRect(renderer, &rect);
+                    //SDL_SetRenderDrawColor(renderer, 255, 255, 255, 100);
+                    //SDL_RenderFillRect(renderer, &rect);
+
+                    CTTFManager::getInstance()->renderText(text->text, rect.x, rect.y, scaleFactorWidth, "MainFont");
                 }
             }
             else {

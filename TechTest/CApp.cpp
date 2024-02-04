@@ -19,12 +19,13 @@ CApp& CApp::GetInstance() {
 
 bool CApp::OnInit() {
     if (SDL_Init(SDL_INIT_EVERYTHING) < 0) {
-        // Handle SDL initialization error
+        std::cerr << "Failed to initialize SDL_Init: " << SDL_GetError() << std::endl;
         return false;
     }
 
     if (TTF_Init() < 0) {
         std::cerr << "Failed to initialize SDL_ttf: " << TTF_GetError() << std::endl;
+        return false;
     }
 
     CTTFManager::getInstance()->loadFont("MainFont", "data/arial.ttf", 24);
