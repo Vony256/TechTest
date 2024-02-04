@@ -7,7 +7,8 @@
 #include "CAppStateGame.h"
 
 
-CAppStateMainMenu::CAppStateMainMenu() : quadtree(0, Rect(0, 0, 1920, 1080)) {
+CAppStateMainMenu::CAppStateMainMenu() : quadtree(0, Rect(0, 0, CWindow::windowControl.getLogicalWidth(), CWindow::windowControl.getLogicalHeight())), factory(entityManager) {
+    
 }
 
 CAppStateMainMenu::~CAppStateMainMenu() {
@@ -63,8 +64,6 @@ void CAppStateMainMenu::OnEvent(SDL_Event* Event) {
                     SDL_GetMouseState(&x, &y);
                     onClickSystem(entityManager, x, y);
 
-                    // Create entity with gravity
-                    CEntityFactory factory(entityManager);
                     x = x / CWindow::windowControl.getScaleFactorWidth();
                     y = y / CWindow::windowControl.getScaleFactorHeight();
                     factory.createGravityEntity(x, y, 20, 50, 98.0f);

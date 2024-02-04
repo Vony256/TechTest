@@ -9,6 +9,7 @@
 class CAppStateMainMenu : public CState {
     private:
         CEntityManager entityManager;
+        CEntityFactory factory;
         CQuadtree quadtree;
 
     public:
