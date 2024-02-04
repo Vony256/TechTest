@@ -2,35 +2,44 @@
 
 #include <vector>
 #include <array>
+#include <SDL.h>
+
+struct EntityStruct {
+    unsigned int entity;
+    float x;
+    float y;
+    float width;
+    float height;
+};
 
 struct Rect {
     float x, y, width, height;
 
     Rect(float _x, float _y, float _width, float _height) : x(_x), y(_y), width(_width), height(_height) {}
+
+    bool contains(const EntityStruct& entity) const {
+        return entity.x >= x && entity.y >= y && entity.x + entity.width <= x + width && entity.y + entity.height <= y + height;
+    }
 };
 
 class CQuadtree {
     private:
-        static const int MAX_ENTITIES = 10; // Maximum entities before splitting
-        static const int MAX_LEVELS = 5;   // Maximum depth of the quadtree
+        static const int MAX_ENTITIES = 10;
+        static const int MAX_LEVELS = 5;
 
-        static CQuadtree* instance;
-
-        int level;                             // Current depth level
-        std::vector<unsigned int> entities;    // Entities in this quadtree node
-        Rect bounds;                          // Boundary of this node
-        std::array<CQuadtree*, 4> children;    // Child quadrants
+        int level;
+        std::vector<EntityStruct> entities;
+        Rect bounds;
+        std::array<CQuadtree*, 4> children;
 
     public:
-        CQuadtree(int _Level, Rect _Bounds);
+        CQuadtree(int _level, Rect _bounds);
         ~CQuadtree();
 
-        static CQuadtree* GetInstance();
-        static void init(int _Level, Rect _Bounds);
-
+        void insert(const EntityStruct& entity);
+        std::vector<unsigned int> query(const Rect& range) const;
+        void clear();
         int getIndex(const Rect& area) const;
         void split();
-        void insert(unsigned int entity, float x, float y, float width, float height);
-        std::vector<unsigned int> query(const Rect& range);
-        void clear();
+        void render(SDL_Renderer* renderer) const;
 };

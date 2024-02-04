@@ -7,7 +7,7 @@
 #include "CAppStateGame.h"
 
 
-CAppStateMainMenu::CAppStateMainMenu() {
+CAppStateMainMenu::CAppStateMainMenu() : quadtree(0, Rect(0, 0, 1600, 900)) {
 }
 
 CAppStateMainMenu::~CAppStateMainMenu() {
@@ -34,12 +34,14 @@ void CAppStateMainMenu::OnDeactivate() {
 }
 
 void CAppStateMainMenu::OnLoop() {
+    quadtreeSystem(entityManager, quadtree);
     gravitySystem(entityManager, CTimer::GetInstance()->GetDeltaTime());
     physicsSystem(entityManager, CTimer::GetInstance()->GetDeltaTime()); //we do everything before physics because phisics ultimatly moves the objects
 }
 
 void CAppStateMainMenu::OnRender() {
     renderSystem(entityManager);
+    quadtree.render(CWindow::windowControl.GetRenderer());
 }
 
 void CAppStateMainMenu::OnEvent(SDL_Event* Event) {
@@ -60,6 +62,12 @@ void CAppStateMainMenu::OnEvent(SDL_Event* Event) {
                     int x, y;
                     SDL_GetMouseState(&x, &y);
                     onClickSystem(entityManager, x, y);
+
+                    // Create entity with gravity
+                    CEntityFactory factory(entityManager);
+                    x = x / CWindow::windowControl.getScaleFactorWidth();
+                    y = y / CWindow::windowControl.getScaleFactorHeight();
+                    factory.createGravityEntity(x, y, 20, 50, 98.0f);
                     break;
                 }
             }

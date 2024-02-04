@@ -4,10 +4,12 @@
 #include "CEntityManager.h"
 #include "CEntityFactory.h"
 #include "CApp.h"
+#include "CQuadtree.h"
 
 class CAppStateMainMenu : public CState {
     private:
         CEntityManager entityManager;
+        CQuadtree quadtree;
 
     public:
         CAppStateMainMenu();

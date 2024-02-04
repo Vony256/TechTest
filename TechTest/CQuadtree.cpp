@@ -1,28 +1,12 @@
 #include "CQuadtree.h"
 
 #include <iostream>
-
-CQuadtree* CQuadtree::instance = nullptr;
+#include "CWindow.h"
 
 CQuadtree::CQuadtree(int _Level, Rect _Bounds) : level(_Level), bounds(_Bounds) {
     for (int i = 0; i < 4; ++i) {
         children[i] = nullptr;
     }
-}
-
-void CQuadtree::init(int _Level, Rect _Bounds) {
-    if (instance != nullptr) {
-        delete instance;
-    }
-    instance = new CQuadtree(_Level, _Bounds);
-}
-
-CQuadtree* CQuadtree::GetInstance() {
-    if (instance == nullptr) {
-        std::cout << "Instance not initialized." << std::endl;
-        instance = new CQuadtree(0, { 0, 0, 0, 0 });
-    }
-    return instance;
 }
 
 CQuadtree::~CQuadtree() {
@@ -35,17 +19,14 @@ CQuadtree::~CQuadtree() {
 }
 
 int CQuadtree::getIndex(const Rect& area) const {
-    int index = -1; // Assume area does not fit entirely within a single quadrant
-    double verticalMidpoint = bounds.x + (bounds.width / 2.0);
-    double horizontalMidpoint = bounds.y + (bounds.height / 2.0);
+    int index = -1;
+    float verticalMidpoint = bounds.x + (bounds.width / 2.0f);
+    float horizontalMidpoint = bounds.y + (bounds.height / 2.0f);
 
-    // Check if the area is in the top quadrants
-    bool topQuadrant = area.y < horizontalMidpoint && (area.y + area.height) <= horizontalMidpoint;
-    // Check if the area is in the bottom quadrants
+    bool topQuadrant = (area.y < horizontalMidpoint) && (area.y + area.height < horizontalMidpoint);
     bool bottomQuadrant = area.y >= horizontalMidpoint;
 
-    // Check if the area is in the left quadrants
-    if (area.x < verticalMidpoint && (area.y + area.height) < verticalMidpoint) {
+    if ((area.x < verticalMidpoint) && (area.x + area.width < verticalMidpoint)) {
         if (topQuadrant) {
             index = 1;
         }
@@ -53,8 +34,7 @@ int CQuadtree::getIndex(const Rect& area) const {
             index = 2;
         }
     }
-    // Check if the area is in the right quadrants
-    else if (area.x > verticalMidpoint) {
+    else if (area.x >= verticalMidpoint) {
         if (topQuadrant) {
             index = 0;
         }
@@ -67,8 +47,8 @@ int CQuadtree::getIndex(const Rect& area) const {
 }
 
 void CQuadtree::split() {
-    float subWidth = bounds.width / 2.0f;
-    float subHeight = bounds.height / 2.0f;
+    float subWidth = (bounds.width / 2.0f);
+    float subHeight = (bounds.height / 2.0f);
     float x = bounds.x;
     float y = bounds.y;
 
@@ -78,14 +58,12 @@ void CQuadtree::split() {
     children[3] = new CQuadtree(level + 1, Rect(x + subWidth, y + subHeight, subWidth, subHeight));
 }
 
-void CQuadtree::insert(unsigned int entity, float x, float y, float width, float height) {
-    Rect entityBounds(x, y, width, height);
-
+void CQuadtree::insert(const EntityStruct& entity) {
     if (children[0] != nullptr) {
-        int index = getIndex(entityBounds);
+        int index = getIndex(Rect(entity.x, entity.y, entity.width, entity.height));
 
         if (index != -1) {
-            children[index]->insert(entity, x, y, width, height);
+            children[index]->insert(entity);
             return;
         }
     }
@@ -97,39 +75,41 @@ void CQuadtree::insert(unsigned int entity, float x, float y, float width, float
             split();
         }
 
-        // Iterating in reverse to avoid complications while erasing
-        for (size_t i = entities.size() - 1; i >= 0; --i) {
-            // Presumably, you would have a way to fetch these attributes for each entity again if needed
-            // For now, assuming we only split once entities are inserted and do not need to re-fetch sizes
-            int index = getIndex(entityBounds); // This line needs adjustment to use each entity's specific bounds
+        auto it = entities.begin();
+        while (it != entities.end()) {
+            int index = getIndex(Rect(it->x, it->y, it->width, it->height));
             if (index != -1) {
-                children[index]->insert(entities[i], x, y, width, height); // This also needs adjustment
-                entities.erase(entities.begin() + i);
+                children[index]->insert(*it);
+                it = entities.erase(it);
+            }
+            else {
+                ++it;
             }
         }
     }
 }
 
-std::vector<unsigned int> CQuadtree::query(const Rect& range) {
-    std::vector<unsigned int> returnEntities, childEntities;
+std::vector<unsigned int> CQuadtree::query(const Rect& range) const {
+    std::vector<unsigned int> returnEntities;
     int index = getIndex(range);
 
     if (index != -1 && children[0] != nullptr) {
-        childEntities = children[index]->query(range);
+        auto childEntities = children[index]->query(range);
         returnEntities.insert(returnEntities.end(), childEntities.begin(), childEntities.end());
     }
     else {
-        // If the range overlaps multiple quadrants, check all children
         for (int i = 0; i < 4; ++i) {
             if (children[i] != nullptr) {
-                childEntities = children[i]->query(range);
+                auto childEntities = children[i]->query(range);
                 returnEntities.insert(returnEntities.end(), childEntities.begin(), childEntities.end());
             }
         }
     }
 
-    // Include entities stored at this node
-    returnEntities.insert(returnEntities.end(), entities.begin(), entities.end());
+    for (const auto& entity : entities) {
+        returnEntities.push_back(entity.entity);
+    }
+
     return returnEntities;
 }
 
@@ -142,6 +122,20 @@ void CQuadtree::clear() {
             children[i]->clear(); // Recursively clear child node
             delete children[i];   // Delete the child node
             children[i] = nullptr; // Reset the pointer to nullptr
+        }
+    }
+}
+
+void CQuadtree::render(SDL_Renderer* renderer) const {
+    SDL_Rect rect = { static_cast<int>(bounds.x), static_cast<int>(bounds.y), static_cast<int>(bounds.width), static_cast<int>(bounds.height) };
+    SDL_SetRenderDrawColor(renderer, 255, 255, 255, SDL_ALPHA_OPAQUE);
+    SDL_RenderDrawRect(renderer, &rect);
+
+    if (children[0] != nullptr) {
+        for (int i = 0; i < 4; ++i) {
+            if (children[i] != nullptr) {
+                children[i]->render(renderer);
+            }
         }
     }
 }

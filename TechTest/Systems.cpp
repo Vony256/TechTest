@@ -115,3 +115,16 @@ void onClickSystem(CEntityManager& entityManager, int mouseX, int mouseY) {
         }
     }
 }
+
+void quadtreeSystem(CEntityManager& entityManager, CQuadtree& quadtree) {
+    quadtree.clear();
+
+    for (Entity entity = 0; entity < entityManager.getEntityCount(); ++entity) {
+        PositionComponent* position = entityManager.getPositionComponent(entity);
+        SizeComponent* size = entityManager.getSizeComponent(entity);
+
+        if (size && position) {
+            quadtree.insert({ entity, position->x, position->y, static_cast<float>(size->width), static_cast<float>(size->height) });
+        }
+    }
+}
