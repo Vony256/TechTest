@@ -4,9 +4,10 @@
 #include "CTimer.h"
 #include "Systems.h"
 #include "CStateManager.h"
+#include "CWindow.h"
 
 
-CAppStateGame::CAppStateGame() {
+CAppStateGame::CAppStateGame() : quadtree(0, Rect(0, 0, static_cast<float>(CWindow::windowControl.getLogicalWidth()), static_cast<float>(CWindow::windowControl.getLogicalHeight()))) {
 }
 
 CAppStateGame::~CAppStateGame() {

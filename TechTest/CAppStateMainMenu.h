@@ -1,15 +1,14 @@
 #pragma once
 
+#include "CApp.h"
 #include "CState.h"
 #include "CEntityManager.h"
 #include "CEntityFactory.h"
-#include "CApp.h"
 #include "CQuadtree.h"
 
 class CAppStateMainMenu : public CState {
     private:
         CEntityManager entityManager;
-        CEntityFactory factory;
         CQuadtree quadtree;
 
     public:

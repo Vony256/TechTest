@@ -3,10 +3,12 @@
 #include "CState.h"
 #include "CEntityManager.h"
 #include "CEntityFactory.h"
+#include "CQuadtree.h"
 
 class CAppStateGame : public CState {
     private:
         CEntityManager entityManager;
+        CQuadtree quadtree;
 
     public:
         CAppStateGame();

@@ -5,7 +5,6 @@
 #include "CAppStateMainMenu.h"
 #include "CTimer.h"
 #include "CWindow.h"
-#include "CQuadtree.h"
 
 class CApp{
 	private:

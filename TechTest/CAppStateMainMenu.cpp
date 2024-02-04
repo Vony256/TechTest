@@ -7,7 +7,7 @@
 #include "CAppStateGame.h"
 
 
-CAppStateMainMenu::CAppStateMainMenu() : quadtree(0, Rect(0, 0, CWindow::windowControl.getLogicalWidth(), CWindow::windowControl.getLogicalHeight())), factory(entityManager) {
+CAppStateMainMenu::CAppStateMainMenu() : quadtree(0, Rect(0, 0, static_cast<float>(CWindow::windowControl.getLogicalWidth()), static_cast<float>(CWindow::windowControl.getLogicalHeight()))) {
     
 }
 
@@ -42,7 +42,7 @@ void CAppStateMainMenu::OnLoop() {
 
 void CAppStateMainMenu::OnRender() {
     renderSystem(entityManager);
-    quadtree.render(CWindow::windowControl.GetRenderer());
+    //quadtree.render(CWindow::windowControl.GetRenderer());
 }
 
 void CAppStateMainMenu::OnEvent(SDL_Event* Event) {
@@ -63,10 +63,6 @@ void CAppStateMainMenu::OnEvent(SDL_Event* Event) {
                     int x, y;
                     SDL_GetMouseState(&x, &y);
                     onClickSystem(entityManager, x, y);
-
-                    x = x / CWindow::windowControl.getScaleFactorWidth();
-                    y = y / CWindow::windowControl.getScaleFactorHeight();
-                    factory.createGravityEntity(x, y, 20, 50, 98.0f);
                     break;
                 }
             }
