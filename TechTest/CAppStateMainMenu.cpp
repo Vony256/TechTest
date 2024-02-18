@@ -29,7 +29,7 @@ void CAppStateMainMenu::OnActivate() {
     // Create basic entity
     factory.createBasicEntity(100, 100, 50, 50);
     // Create entity with gravity
-    factory.createGravityEntity(200, 200, 20, 50, 98.0f);
+    factory.createGravityEntity(200, 200, 20, 50, 980.0f);
 }
 
 void CAppStateMainMenu::OnDeactivate() {
@@ -52,27 +52,12 @@ void CAppStateMainMenu::OnRender() {
 void CAppStateMainMenu::OnEvent(SDL_Event* Event) {
     switch (Event->type) {
         case SDL_MOUSEBUTTONDOWN: {
-            switch (Event->button.button) {
-                case SDL_BUTTON_LEFT: {
-                    int x, y;
-                    SDL_GetMouseState(&x, &y);
-                    break;
-                }
-            }
             break;
         }
         case SDL_MOUSEBUTTONUP: {
-            switch (Event->button.button) {
-                case SDL_BUTTON_LEFT: {
-                    int x, y;
-                    SDL_GetMouseState(&x, &y);
-                    onClickSystem(entityManager, x, y);
-                    break;
-                }
-            }
+            onClickSystem(entityManager, Event);
             break;
         }
-
         case SDL_KEYDOWN: {
             if (Event->key.keysym.sym == SDLK_ESCAPE) {
                 CApp::GetInstance().OnExit();

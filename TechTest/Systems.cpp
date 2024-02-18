@@ -112,6 +112,7 @@ void onClickSystem(CEntityManager& entityManager, int mouseX, int mouseY) {
         TagComponent* tags = entityManager.getTagComponent(entity);
         VelocityComponent* velocity = entityManager.getVelocityComponent(entity);
         SelectableComponent* selectable = entityManager.getSelectableComponent(entity);
+        GravityComponent* gravity = entityManager.getGravityComponent(entity);
 
         if (position && size) {
             // Check if the mouse click is within the entity's bounds
@@ -132,12 +133,26 @@ void onClickSystem(CEntityManager& entityManager, int mouseX, int mouseY) {
                 if (selectable) {
                     selectable->selected = true;
                 }
+                if (gravity && velocity) {
+                    velocity->ySpeed = velocity->ySpeed - 1000;
+                }
             }
             else { // if not clicked on
                 if (selectable) {
                     selectable->selected = false;
                 }
             }
+        }
+    }
+}
+
+void onClickSystem(CEntityManager& entityManager, SDL_Event* Event) {
+    switch (Event->button.button) {
+        case SDL_BUTTON_LEFT: {
+            int x, y;
+            SDL_GetMouseState(&x, &y);
+            onClickSystem(entityManager, x, y);
+            break;
         }
     }
 }
