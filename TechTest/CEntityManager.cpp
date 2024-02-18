@@ -50,6 +50,10 @@ void CEntityManager::addUIComponent(Entity entity, const UIComponent& component)
     uiComponents[entity] = component;
 }
 
+void CEntityManager::addSelectableComponent(Entity entity, const SelectableComponent& component) {
+    selectableComponents[entity] = component;
+}
+
 // Get Methods
 
 SizeComponent* CEntityManager::getSizeComponent(Entity entity) {
@@ -119,6 +123,14 @@ TextComponent* CEntityManager::getTextComponent(Entity entity) {
 UIComponent* CEntityManager::getUIComponent(Entity entity) {
     std::unordered_map<Entity, UIComponent>::iterator it = uiComponents.find(entity);
     if (it != uiComponents.end()) {
+        return &(it->second);
+    }
+    return nullptr;
+}
+
+SelectableComponent* CEntityManager::getSelectableComponent(Entity entity) {
+    std::unordered_map<Entity, SelectableComponent>::iterator it = selectableComponents.find(entity);
+    if (it != selectableComponents.end()) {
         return &(it->second);
     }
     return nullptr;

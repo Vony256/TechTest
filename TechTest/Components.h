@@ -37,6 +37,10 @@ struct TextComponent {
     std::string text;
 };
 
+struct SelectableComponent {
+    bool selected;
+};
+
 struct UIComponent {
     enum class Type {
         Button,

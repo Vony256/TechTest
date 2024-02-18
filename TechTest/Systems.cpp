@@ -54,6 +54,7 @@ void renderSystem(CEntityManager& entityManager) {
         PositionComponent* position = entityManager.getPositionComponent(entity);
         UIComponent* ui = entityManager.getUIComponent(entity);
         TextComponent* text = entityManager.getTextComponent(entity);
+        SelectableComponent* selectable = entityManager.getSelectableComponent(entity);
 
         if (size != nullptr && position != nullptr) {
             // Create an SDL_Rect with the position and size from the components
@@ -80,6 +81,18 @@ void renderSystem(CEntityManager& entityManager) {
                 // Draw the rectangle
                 SDL_RenderFillRect(renderer, &rect);
             }
+
+            if (selectable) {
+                if (selectable->selected) {
+                    rect.x = rect.x - 5;
+                    rect.y = rect.y - 5;
+                    rect.w = rect.w + 10;
+                    rect.h = rect.h + 10;
+
+                    SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+                    SDL_RenderDrawRect(renderer, &rect);
+                }
+            }
         }
     }
 }
@@ -98,6 +111,7 @@ void onClickSystem(CEntityManager& entityManager, int mouseX, int mouseY) {
         LambdaComponent* lambda = entityManager.getLambdaComponent(entity);
         TagComponent* tags = entityManager.getTagComponent(entity);
         VelocityComponent* velocity = entityManager.getVelocityComponent(entity);
+        SelectableComponent* selectable = entityManager.getSelectableComponent(entity);
 
         if (position && size) {
             // Check if the mouse click is within the entity's bounds
@@ -114,6 +128,14 @@ void onClickSystem(CEntityManager& entityManager, int mouseX, int mouseY) {
                 if (velocity) {
                     std::cout << "xSpeed: " << velocity->xSpeed << std::endl;
                     std::cout << "ySpeed: " << velocity->ySpeed << std::endl;
+                }
+                if (selectable) {
+                    selectable->selected = true;
+                }
+            }
+            else { // if not clicked on
+                if (selectable) {
+                    selectable->selected = false;
                 }
             }
         }

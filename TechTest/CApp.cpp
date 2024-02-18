@@ -4,7 +4,7 @@
 
 CApp* CApp::instance = nullptr;
 
-CApp::CApp() : Running(true), FPSlimit(60) {
+CApp::CApp() : Running(true), FPSlimit(0) {
 }
 
 CApp::~CApp() {

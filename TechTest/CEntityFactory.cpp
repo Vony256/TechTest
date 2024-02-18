@@ -31,6 +31,9 @@ Entity CEntityFactory::createGravityEntity(float x, float y, int width, int heig
     VelocityComponent vel{ 0, 0 };
     entityManager.addVelocityComponent(entity, vel);
 
+    SelectableComponent selectable{ false };
+    entityManager.addSelectableComponent(entity, selectable);
+
     // Define a common action for all gravity entities
     std::function<void()> gravityAction = []() {
         std::cout << "Gravity action triggered!" << std::endl;
